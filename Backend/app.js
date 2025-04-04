@@ -6,7 +6,7 @@ const { UserRoute } = require("./routes/userRoutes");
 
 const port = process.env.PORT || 8080;
 const corsOptions = {
-    origin: process.env.FE_URL,
+    origin: process.env.FE_URL || "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -14,15 +14,28 @@ const corsOptions = {
 
 class App {
     constructor() {
-        const userRoute = new UserRoute();
-
         this.server = express();
-        this.server.options("*", cors(corsOptions));
+        this.configureMiddleware();
+        this.configureRoutes();
+        this.handleErrors();
+    }
+
+    configureMiddleware() {
         this.server.use(cors(corsOptions));
         this.server.use(express.json());
         this.server.use(express.urlencoded({ extended: true }));
+    }
 
-        this.server.use("/api/user", userRoute.getRoutes());
+    configureRoutes() {
+        const userRoute = new UserRoute();
+        this.server.use("/api", userRoute.getRoutes());
+    }
+
+    handleErrors() {
+        this.server.use((err, req, res, next) => {
+            console.error("[ERROR]", err);
+            res.status(500).json({ message: "Internal Server Error" });
+        });
     }
 
     run() {

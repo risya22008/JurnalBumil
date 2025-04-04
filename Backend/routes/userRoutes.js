@@ -1,19 +1,18 @@
 const { Router } = require("express");
-const { UserController } = require("../controllers/userController");
-// const { AuthMiddleware } = require("../middlewares/authMiddleware");
+const { IbuController } = require("../controllers/ibuController");
+const { BidanController } = require("../controllers/bidanController");
 
 class UserRoute {
     constructor() {
         this.router = Router();
-        this.userController = new UserController();
-        // this.authMiddleware = new AuthMiddleware();
+        this.ibuController = new IbuController();
+        this.bidanController = new BidanController();
     }
 
     getRoutes() {
         return this.router
-            .post("/", 
-                this.userController.createNewUser
-            );
+            .post("/ibu", this.ibuController.createNewIbu)
+            .post("/bidan", this.bidanController.createNewBidan);
     }
 }
 
