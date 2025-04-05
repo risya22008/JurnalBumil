@@ -19,12 +19,14 @@ class BidanController {
                 return res.status(403).json({ message: "Email sudah digunakan" });
             }
 
+            // Buat akun bidan dengan kolom verifikasi default 0
             const newBidan = await this.bidanService.createBidan({
                 nama_bidan,
                 email_bidan,
                 sandi_bidan,
                 kode_lembaga,
-                kode_bidan
+                kode_bidan,
+                verifikasi: 0
             });
 
             res.status(201).json({ bidanId: newBidan.id });

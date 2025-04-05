@@ -9,7 +9,8 @@ class BidanService {
             email_bidan: bidan.email_bidan,
             sandi_bidan: hashedPassword,
             kode_lembaga: bidan.kode_lembaga,
-            kode_bidan: bidan.kode_bidan
+            kode_bidan: bidan.kode_bidan,
+            verifikasi: 0 // Tambahkan kolom verifikasi default 0
         };
 
         // Cek apakah email sudah digunakan di tabel bidan atau ibu
@@ -30,4 +31,4 @@ class BidanService {
     }
 }
 
-module.exports = {BidanService };
+module.exports = { BidanService };
