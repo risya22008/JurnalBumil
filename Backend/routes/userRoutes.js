@@ -12,7 +12,9 @@ class UserRoute {
     getRoutes() {
         return this.router
             .post("/ibu", this.ibuController.createNewIbu)
-            .post("/bidan", this.bidanController.createNewBidan);
+            .post("/bidan", this.bidanController.createNewBidan)
+            .post("/login/bidan", this.bidanController.loginBidan)
+            .post("/login/ibu", this.bidanController.loginBidan);
     }
 }
 

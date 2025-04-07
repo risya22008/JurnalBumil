@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { db } = require("../firebaseClient");
+const jwt = require('jsonwebtoken');
 
 class BidanService {
     async createBidan(bidan) {
@@ -25,9 +26,46 @@ class BidanService {
         return { id: bidanRef.id, ...newBidan };
     }
 
+    async loginBidan(loginData) {
+        const emailExistsInBidan = await db.collection("Bidan").where("email_bidan", "==", loginData.email_bidan).get();
+
+        if (emailExistsInBidan.empty) {
+            throw new Error("User belum terdaftar!");
+        }
+
+        console.log(emailExistsInBidan) 
+
+        const userData = emailExistsInBidan.docs[0].data();
+
+        const isMatch = await bcrypt.compare(loginData.sandi_bidan, userData.sandi_bidan);
+
+        if(isMatch) {
+            const authToken = this.generateAuthToken(userData);
+            return authToken;
+        }else {
+            throw new Error("Invalid credentials");
+        }
+
+    }
+    
     async findByEmail(email) {
         const bidanSnapshot = await db.collection("Bidan").where("email_bidan", "==", email).get();
         return !bidanSnapshot.empty;
+    }
+
+    generateAuthToken (userData) {
+        const payload = {
+            userId: userData._id || userData.id,
+            email: userData.email_bidan,
+        }
+
+        const secretKey = process.env.JWT_SECRET; 
+
+        const options = {
+          expiresIn: '1h',
+        };
+      
+        return jwt.sign(payload, secretKey, options); 
     }
 }
 

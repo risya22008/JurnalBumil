@@ -29,6 +29,28 @@ class IbuService {
         const ibuSnapshot = await db.collection("Ibu").where("email_ibu", "==", email).get();
         return !ibuSnapshot.empty;
     }
+
+    async loginIbu(loginData) {
+        const emailExistsInIbu = await db.collection("Ibu").where("email_ibu", "==", loginData.email_ibu).get();
+
+        if (emailExistsInIbu.empty) {
+            throw new Error("User belum terdaftar!");
+        }
+
+        console.log(emailExistsInIbu) 
+
+        const userData = emailExistsInIbu.docs[0].data();
+
+        const isMatch = await bcrypt.compare(loginData.sandi_ibu, userData.sandi_ibu);
+
+        if(isMatch) {
+            const authToken = this.generateAuthToken(userData);
+            return authToken;
+        }else {
+            throw new Error("Invalid credentials");
+        }
+
+    }
 }
 
 module.exports = { IbuService};

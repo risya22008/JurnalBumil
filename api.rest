@@ -1,0 +1,29 @@
+POST http://localhost:8000/api/login/bidan
+Content-Type: application/json
+
+{
+  "email_bidan": "ayam@gmail.com", 
+  "sandi_bidan": "ayam"
+}
+
+###
+POST http://localhost:8000/api/login/ibu
+Content-Type: application/json
+
+{
+  "email_bidan": "ayam@gmail.com", 
+  "sandi_bidan": "ayam"
+}
+
+###
+POST http://localhost:8000/api/ibu
+Content-Type: application/json
+
+{
+  "nama_ibu": "Ibu ayam",
+  "email_ibu": "ibuayam@gmail.com",
+  "sandi_ibu": "ibuayam",
+  "usia_kehamilan": "ibuayam",
+  "bidan": "ayam",
+  "tanggal_registrasi": "07/04/2025"
+}
