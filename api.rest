@@ -27,3 +27,12 @@ Content-Type: application/json
   "bidan": "ayam",
   "tanggal_registrasi": "07/04/2025"
 }
+
+
+{
+  "nama_bidan": "Panji Iman S",
+  "email_bidan": "panjiimans1@gmail.com",
+  "sandi_bidan": "password123",
+  "kode_lembaga": "L123",
+  "kode_bidan": "B456"
+}
