@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Navbar from "../components/navbar";
 
 const Dashboard = () => {
   const [name, setName] = useState("");
@@ -15,7 +16,7 @@ const Dashboard = () => {
   
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Navbar />
       <main className="flex-grow p-6">
         <h2 className="text-xl font-semibold mb-4">Selamat datang, {name}!</h2>
         {/* konten */}
