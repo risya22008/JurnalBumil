@@ -14,7 +14,7 @@ class UserRoute {
             .post("/ibu", this.ibuController.createNewIbu)
             .post("/bidan", this.bidanController.createNewBidan)
             .post("/login/bidan", this.bidanController.loginBidan)
-            .post("/login/ibu", this.bidanController.loginBidan)
+            .post("/login/ibu", this.ibuController.loginIbu)
             .post("/bidan/verifikasi", this.bidanController.verifyEmail)
             .post("/ibu/verifikasi", this.ibuController.verifyEmail);
 

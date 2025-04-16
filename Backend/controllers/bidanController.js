@@ -5,7 +5,7 @@ const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const db = admin.firestore(); // Pastikan ini ada!
+const db = admin.firestore();
 
 class BidanController {
     constructor() {
@@ -27,6 +27,7 @@ class BidanController {
             if (emailInUseBidan || emailInUseIbu) {
                 return res.status(403).json({ message: "Email sudah digunakan" });
             }
+            
 
             await auth().createUser({
                 email: email_bidan,
@@ -51,8 +52,11 @@ class BidanController {
                 to: email_bidan,
                 subject: 'Verifikasi Email Anda',
                 html: `<p>Halo ${nama_bidan},</p>
-                       <p>Silakan klik link berikut untuk memverifikasi email Anda:</p>
-                       <a href="${verificationLink}">${verificationLink}</a>`
+                       <h3>Verifikasi Email</h3>
+                       <p>Klik tombol di bawah ini untuk memverifikasi email Anda:</p>
+                        <a href="${verificationLink}" style="padding: 10px 20px; background-color:rgb(48, 51, 212); color: white; text-decoration: none; border-radius: 5px;">Verifikasi Email</a>
+                        <p>Atau salin dan tempel link ini di browser Anda:</p>
+                        <p>${verificationLink}</p>`
             };
 
             await transporter.sendMail(mailOptions);
@@ -80,38 +84,41 @@ class BidanController {
 
     verifyEmail = async (req, res) => {
         try {
-            const { oobCode, email } = req.body;
-
-            if (!oobCode || !email) {
-                return res.status(400).json({ message: "Kode verifikasi atau email tidak ditemukan" });
+            const { email } = req.body;
+    
+            if (!email) {
+                return res.status(400).json({ message: "Email tidak ditemukan" });
             }
-
-            // Terapkan verifikasi email menggunakan kode
-            await auth().applyActionCode(oobCode);
-
-            // Cari data bidan berdasarkan email
+    
+            // Ambil data user dari Firebase Auth
+            const userRecord = await auth().getUserByEmail(email);
+    
+            if (!userRecord.emailVerified) {
+                return res.status(400).json({ message: "Email belum diverifikasi. Silakan klik link dari email." });
+            }
+    
+            // Cari data bidan di Firestore
             const bidanSnapshot = await db.collection("Bidan").where("email_bidan", "==", email).get();
-
+    
             if (bidanSnapshot.empty) {
-                console.log("Pengguna tidak ditemukan di database dengan email:", email);
-                return res.status(404).json({ message: "Pengguna tidak ditemukan" });
+                return res.status(404).json({ message: "Pengguna tidak ditemukan di database" });
             }
-
+    
             const bidanDoc = bidanSnapshot.docs[0];
+    
             const verifikasiStatus = bidanDoc.data().verifikasi_email;
-
             if (verifikasiStatus === 2) {
                 return res.status(200).json({ message: "Email sudah diverifikasi sebelumnya." });
             }
-
+    
             await bidanDoc.ref.update({ verifikasi_email: 2 });
-
+    
             res.status(200).json({ message: "Email berhasil diverifikasi!" });
         } catch (error) {
             console.error("Verifikasi gagal:", error);
             res.status(500).json({ message: "Verifikasi gagal: " + error.message });
         }
-    };
+    };    
 
     loginBidan = async (req, res) => {
         try{
@@ -121,12 +128,13 @@ class BidanController {
                 return res.status(403).json({ message: "email dan sandi tidak boleh kosong!" });
             }
 
-            const emailExistsInBidan = await this.bidanService.findByEmail(email_bidan);    
+            const emailExistsInBidan = await this.bidanService.findByEmail(email_bidan); 
             
             if (!emailExistsInBidan) {
                 return res.status(403).json({ message: "Email tidak terdaftar" });
             }
-    
+            
+
             const authToken = await this.bidanService.loginBidan({
                 email_bidan,
                 sandi_bidan

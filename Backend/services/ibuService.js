@@ -45,6 +45,10 @@ class IbuService {
         const isMatch = await bcrypt.compare(loginData.sandi_ibu, userData.sandi_ibu);
 
         if(isMatch) {
+            //cek verifikasi_email = 2
+            if (userData.verifikasi_email !== 2) {
+                throw new Error("Akun belum diverifikasi!");
+            }
             const authToken = this.generateAuthToken(userData);
             return authToken;
         }else {

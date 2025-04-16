@@ -50,7 +50,7 @@ class BidanService {
             html: `
                 <h3>Verifikasi Email</h3>
                 <p>Klik tombol di bawah ini untuk memverifikasi email Anda:</p>
-                <a href="${verificationLink}" style="padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Verifikasi Email</a>
+                <a href="${verificationLink}" style="padding: 10px 20px; background-color:rgb(48, 51, 212); color: white; text-decoration: none; border-radius: 5px;">Verifikasi Email</a>
                 <p>Atau salin dan tempel link ini di browser Anda:</p>
                 <p>${verificationLink}</p>
             `
@@ -83,6 +83,10 @@ class BidanService {
         const isMatch = await bcrypt.compare(loginData.sandi_bidan, userData.sandi_bidan);
 
         if(isMatch) {
+            //cek verifikasi = 1, verifikasi_email = 2
+            if (userData.verifikasi !== 1 || userData.verifikasi_email !== 2) {
+                throw new Error("Akun belum diverifikasi!");
+            }
             const authToken = this.generateAuthToken(userData);
             return authToken;
         }else {
