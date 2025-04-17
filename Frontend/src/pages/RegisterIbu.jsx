@@ -126,7 +126,7 @@ const Register = () => {
 
       <p className="text-sm text-center mt-6">
         Sudah memiliki akun?{" "}
-        <a href="#" className="text-blue-800 font-medium">Masuk</a>
+        <a href="/login" className="text-blue-800 font-medium">Masuk</a>
       </p>
     </FormLayout>
   );

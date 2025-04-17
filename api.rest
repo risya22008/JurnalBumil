@@ -1,9 +1,30 @@
+GET http://localhost:8000/api/bidan/BDN123/ibu
+
+
+
+###
+GET http://localhost:8000/api/catatan
+
+###
+POST http://localhost:8000/api/catatan
+Content-Type: application/json
+
+{
+  "catatan_kondisi": "sehat ae", 
+  "catatan_konsumsi": "maknanan sehat",
+  "gejala": [1, 2],
+  "id_ibu": "0NfCzEt9FaOZQx4r1JNq",
+  "date": "2025-04-17T01:33:28Z",
+  "rating": 4
+}
+
+###
 POST http://localhost:8000/api/login/bidan
 Content-Type: application/json
 
 {
-  "email_bidan": "ayam@gmail.com", 
-  "sandi_bidan": "ayam"
+  "email_bidan": "bidan5@gmail.com", 
+  "sandi_bidan": "bidan5"
 }
 
 ###
@@ -11,8 +32,8 @@ POST http://localhost:8000/api/login/ibu
 Content-Type: application/json
 
 {
-  "email_bidan": "ayam@gmail.com", 
-  "sandi_bidan": "ayam"
+  "email_ibu": "ibubebek3@gmail.com", 
+  "sandi_ibu": "ibu"
 }
 
 ###
@@ -20,10 +41,36 @@ POST http://localhost:8000/api/ibu
 Content-Type: application/json
 
 {
-  "nama_ibu": "Ibu ayam",
-  "email_ibu": "ibuayam@gmail.com",
-  "sandi_ibu": "ibuayam",
-  "usia_kehamilan": "ibuayam",
+  "nama_ibu": "Ibu Bebek3",
+  "email_ibu": "ibubebek3@gmail.com",
+  "sandi_ibu": "ibubebek3",
+  "usia_kehamilan": "10",
   "bidan": "ayam",
-  "tanggal_registrasi": "07/04/2025"
+  "tanggal_registrasi": "08/04/2025"
 }
+
+<<<<<<< HEAD
+###
+POST http://localhost:8000/api/bidan
+Content-Type: application/json
+
+{
+  "nama_bidan": "bidan 5",
+  "email_bidan": "bidan5@gmail.com",
+  "sandi_bidan": "bidan5",
+  "kode_lembaga": "A11",
+  "kode_bidan": "AL5",
+  "verifikasi": 0
+}
+
+
+=======
+
+{
+  "nama_bidan": "Panji Iman S",
+  "email_bidan": "panjiimans1@gmail.com",
+  "sandi_bidan": "password123",
+  "kode_lembaga": "L123",
+  "kode_bidan": "B456"
+}
+>>>>>>> b2c09b9cf65ee6a4b49693870f3712e7fb4f9c3f
