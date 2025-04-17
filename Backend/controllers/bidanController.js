@@ -68,7 +68,19 @@ class BidanController {
         }
     };
 
-    
+    viewAllIbu = async (req, res) => {
+        try{
+            const kodeBidan = req.params.kodeBidan;
+
+            const result = await this.ibuService.getAllIbuByKodeBidan(kodeBidan);
+            // console.log(result);
+            res.status(200).json({ dataIbu: result });
+
+        }catch (error){
+            res.status(500).json({ message: error.message });
+
+        }
+    }   
 }
 
 module.exports = { BidanController };
