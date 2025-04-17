@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { db } = require("../firebaseClient");
-const jwt = require("jsonwebtoken"); // Kalau kamu pakai JWT
+const jwt = require('jsonwebtoken');
 
 class IbuService {
     async createIbu(ibu) {
@@ -31,6 +31,27 @@ class IbuService {
         return !ibuSnapshot.empty;
     }
 
+
+    async getAllIbuByKodeBidan(kode_bidan){
+        const ibuSnapshot = await db.collection("Ibu").where("kode_bidan", "==", kode_bidan).select("nama_ibu", "usia_kehamilan").get();
+        
+        if (ibuSnapshot.empty) {
+            console.log('No matching documents.');
+            return;
+        }
+
+        const docs = ibuSnapshot.docs;
+
+        const dataIbu = docs.map(doc => { 
+            return {
+                id: doc.id, ...doc.data()
+            };
+        });
+
+
+        return dataIbu;
+    }
+
     async loginIbu(loginData) {
         const emailExistsInIbu = await db.collection("Ibu").where("email_ibu", "==", loginData.email_ibu).get();
 
@@ -57,16 +78,19 @@ class IbuService {
 
     }
 
-    generateAuthToken(user) {
-        // Contoh menggunakan JWT
+    generateAuthToken (userData) {
         const payload = {
-            email: user.email_ibu,
-            nama: user.nama_ibu,
-            role: "ibu"
-        };
+            userId: userData._id || userData.id,
+            email: userData.email_bidan,
+        }
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
-        return token;
+        const secretKey = process.env.JWT_SECRET; 
+
+        const options = {
+            expiresIn: '1h',
+        };
+        
+        return jwt.sign(payload, secretKey, options); 
     }
 }
 

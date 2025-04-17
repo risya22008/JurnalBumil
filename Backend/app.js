@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { UserRoute } = require("./routes/userRoutes");
+const { CatatanRoutes } = require("./routes/catatanRoutes");
 
 const port = process.env.PORT || 8080;
 const corsOptions = {
@@ -28,7 +29,10 @@ class App {
 
     configureRoutes() {
         const userRoute = new UserRoute();
+        const catatanRoute = new CatatanRoutes();
+        
         this.server.use("/api", userRoute.getRoutes());
+        this.server.use("/api", catatanRoute.getRoutes());
     }
 
     handleErrors() {
