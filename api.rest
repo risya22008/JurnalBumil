@@ -49,6 +49,7 @@ Content-Type: application/json
   "tanggal_registrasi": "08/04/2025"
 }
 
+<<<<<<< HEAD
 ###
 POST http://localhost:8000/api/bidan
 Content-Type: application/json
@@ -63,3 +64,13 @@ Content-Type: application/json
 }
 
 
+=======
+
+{
+  "nama_bidan": "Panji Iman S",
+  "email_bidan": "panjiimans1@gmail.com",
+  "sandi_bidan": "password123",
+  "kode_lembaga": "L123",
+  "kode_bidan": "B456"
+}
+>>>>>>> b2c09b9cf65ee6a4b49693870f3712e7fb4f9c3f

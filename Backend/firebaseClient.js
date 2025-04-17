@@ -8,7 +8,7 @@ admin.initializeApp({
     databaseURL: "https://jurnalbumil-c9c5f-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 
-const db = admin.firestore(); // Firestore
-const realtimeDb = admin.database(); // Realtime Database (opsional)
+const db = admin.firestore(); 
+const realtimeDb = admin.database(); 
 
 module.exports = { db, realtimeDb };

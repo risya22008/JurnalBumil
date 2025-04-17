@@ -1,19 +1,20 @@
 const bcrypt = require("bcrypt");
 const { db } = require("../firebaseClient");
+const jwt = require("jsonwebtoken"); // Kalau kamu pakai JWT
 
 class IbuService {
     async createIbu(ibu) {
         const hashedPassword = await bcrypt.hash(ibu.sandi_ibu, 10);
-        const newIbu = { 
+        const newIbu = {
             nama_ibu: ibu.nama_ibu,
             email_ibu: ibu.email_ibu,
             sandi_ibu: hashedPassword,
             usia_kehamilan: ibu.usia_kehamilan,
             bidan: ibu.bidan || null,
-            tanggal_registrasi: new Date()
+            tanggal_registrasi: new Date(),
+            verifikasi_email: 0 // Belum diverifikasi
         };
 
-        // Cek apakah email sudah digunakan di tabel ibu atau bidan
         const emailExistsInIbu = await db.collection("Ibu").where("email_ibu", "==", ibu.email_ibu).get();
         const emailExistsInBidan = await db.collection("Bidan").where("email_bidan", "==", ibu.email_ibu).get();
 
@@ -44,6 +45,10 @@ class IbuService {
         const isMatch = await bcrypt.compare(loginData.sandi_ibu, userData.sandi_ibu);
 
         if(isMatch) {
+            //cek verifikasi_email = 2
+            if (userData.verifikasi_email !== 2) {
+                throw new Error("Akun belum diverifikasi!");
+            }
             const authToken = this.generateAuthToken(userData);
             return authToken;
         }else {
@@ -51,6 +56,18 @@ class IbuService {
         }
 
     }
+
+    generateAuthToken(user) {
+        // Contoh menggunakan JWT
+        const payload = {
+            email: user.email_ibu,
+            nama: user.nama_ibu,
+            role: "ibu"
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+        return token;
+    }
 }
 
-module.exports = { IbuService};
+module.exports = { IbuService };
