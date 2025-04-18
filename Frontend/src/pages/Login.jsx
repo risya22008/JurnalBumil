@@ -27,12 +27,12 @@ const Login = () => {
       let response;
 
       if (form.role === "bidan") {
-        response = await axios.post("http://localhost:8000/api/bidan/login", {
+        response = await axios.post("http://localhost:8000/api/login/bidan", {
           email_bidan: form.email,
           sandi_bidan: form.password,
         });
       } else if (form.role === "ibu") {
-        response = await axios.post("http://localhost:8000/api/ibu/login", {
+        response = await axios.post("http://localhost:8000/api/login/ibu", {
           email_ibu: form.email,
           sandi_ibu: form.password,
         });
@@ -41,12 +41,14 @@ const Login = () => {
         return;
       }
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name: response.data.name || form.email })
-      );
+      // localStorage.setItem(
+      //   "user",
+      //   JSON.stringify({ name: response.data.name || form.email })
+      // );
 
-      setSuccess("Login berhasil!");
+      localStorage.setItem("token", response.data.authToken);
+
+      // setSuccess("Login berhasil!");
 
       if (form.role === "bidan") {
         window.location.href = "/dashboard";

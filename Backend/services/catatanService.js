@@ -10,7 +10,8 @@ class CatatanService {
             catatan_konsumsi: catatanInfo.catatan_konsumsi,
             gejala: catatanInfo.gejala,
             rating: catatanInfo.rating,
-            date: catatanInfo.date
+            date: catatanInfo.date,
+            id_ibu: catatanInfo.id_ibu,
           });
 
 
@@ -26,19 +27,18 @@ class CatatanService {
 
     }
 
-    async getAllCatatanByIdIbu(id_ibu){
-        const ibuRef = await db.collection("Ibu").doc(id_ibu)
-        const ibuSnapshot = await db.collection("Catatan").where("id_ibu", "==", ibuRef).get();
+    async getAllCatatanByIdIbu(id_ibu) {
+        const ibuSnapshot = await db.collection("Catatan").where("id_ibu", "==", id_ibu).get();
         
         if (ibuSnapshot.empty) {
             console.log('No matching documents.');
-            return;
+            return [];
         }
     
-        const catatanIbu = ibuSnapshot.docs.map(doc => { return {...doc.data()}; });
+        const catatanIbu = ibuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
         return catatanIbu;
-    }   
+    }
 
     
 }

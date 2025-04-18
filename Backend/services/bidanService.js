@@ -76,23 +76,26 @@ class BidanService {
             throw new Error("User belum terdaftar!");
         }
 
-        console.log(emailExistsInBidan) 
 
         const userData = emailExistsInBidan.docs[0].data();
+        const userId = emailExistsInBidan.docs[0].id;
 
         const isMatch = await bcrypt.compare(loginData.sandi_bidan, userData.sandi_bidan);
 
-        if(isMatch) {
-            //cek verifikasi = 1, verifikasi_email = 2
+        if (isMatch) {
+            // cek verifikasi = 1, verifikasi_email = 2
             if (userData.verifikasi !== 1 || userData.verifikasi_email !== 2) {
                 throw new Error("Akun belum diverifikasi!");
             }
-            const authToken = this.generateAuthToken(userData);
+            const authToken = this.generateAuthToken({
+                ...userData,
+                id: userId,
+                nama_bidan: userData.nama_bidan
+            });
             return authToken;
-        }else {
+        } else {
             throw new Error("Invalid credentials");
         }
-
     }
     
     async findByEmail(email) {
@@ -104,6 +107,8 @@ class BidanService {
         const payload = {
             userId: userData._id || userData.id,
             email: userData.email_bidan,
+            nama: userData.nama_bidan,
+            role: "bidan",
         }
 
         const secretKey = process.env.JWT_SECRET; 

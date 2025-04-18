@@ -18,7 +18,7 @@ class UserRoute {
             .post("/bidan/verifikasi", this.bidanController.verifyEmail)
             .post("/ibu/verifikasi", this.ibuController.verifyEmail)
             .post("/login/ibu", this.ibuController.loginIbu)
-            .get("/bidan/:kodeBidan/ibu", this.bidanController.viewAllIbu)
+            .get("/bidan/:namaBidan/ibu", this.bidanController.viewAllIbu)
     }
 }
 
