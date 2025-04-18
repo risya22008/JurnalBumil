@@ -4,7 +4,10 @@ import RegisterIbu from "./pages/RegisterIbu";
 import RegisterBidan from "./pages/RegisterBidan";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Catatan from "./pages/Catatan";
+import NotVerivied from "./pages/notVerified";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 
 const App = () => {
   return (
@@ -13,6 +16,8 @@ const App = () => {
       <Route path="/register/ibu" element={<RegisterIbu />} />
       <Route path="/register/bidan" element={<RegisterBidan />} />
       <Route path="/login" element={<Login/>} />
+      <Route path="/catatan" element={<Catatan/>} />
+      <Route path="/verifikasi" element={<NotVerivied/>} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/>
     </Routes>
   );
