@@ -40,6 +40,23 @@ class CatatanService {
         return catatanIbu;
     }
 
+
+    getCatatanByTanggal = async (id_ibu, tanggal) => {
+        try {
+            const snapshot = await db.collection("Catatan")
+                .where("id_ibu", "==", id_ibu)
+                .where("date", "==", tanggal)
+                .get();
+
+            if (snapshot.empty) {
+                return null;
+            }
+
+            return snapshot.docs[0].data();
+        } catch (error) {
+            throw new Error("Gagal mengambil catatan: " + error.message);
+        }
+    };
     
 }
 
