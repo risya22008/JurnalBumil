@@ -7,6 +7,7 @@ class CatatanController {
 
 
     createNewCatatan = async (req, res) => {
+        console.log("Received data:", req.body);
         try{
             const catatanInfo = req.body;
             console.log(catatanInfo);
