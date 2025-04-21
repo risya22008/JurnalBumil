@@ -34,7 +34,6 @@ class IbuService {
 
     async getAllIbuByKodeBidan(kode_bidan) {
         const ibuSnapshot = await db.collection("Ibu").where("kode_bidan", "==", kode_bidan).select("nama_ibu", "usia_kehamilan").get();
-
         if (ibuSnapshot.empty) {
             console.log('No matching documents.');
             return;
@@ -69,7 +68,6 @@ class IbuService {
                     const ibuData = ibuDoc.data();
                     const id_ibu = ibuDoc.id;
 
-                    // gunakan pendekatan seperti di getAllCatatanByIdIbu
                     const catatanSnapshot = await db
                         .collection("Catatan")
                         .where("id_ibu", "==", id_ibu)
