@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { db } = require("../firebaseClient");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken"); // Kalau kamu pakai JWT
 
 class IbuService {
     async createIbu(ibu) {
@@ -108,6 +108,8 @@ class IbuService {
         console.log(emailExistsInIbu)
 
         const userData = emailExistsInIbu.docs[0].data();
+        userData.id = emailExistsInIbu.docs[0].id;
+
 
         const isMatch = await bcrypt.compare(loginData.sandi_ibu, userData.sandi_ibu);
 
@@ -130,6 +132,7 @@ class IbuService {
             email: userData.email_ibu,
             nama: userData.nama_ibu,
             role: "ibu",
+            id: userData.id
 
         }
 
