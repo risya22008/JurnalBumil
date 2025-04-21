@@ -115,8 +115,9 @@ class BidanService {
         const payload = {
             userId: userData._id || userData.id,
             email: userData.email_bidan,
+            id: userData.id,
             nama: userData.nama_bidan,
-            role: "bidan",
+            role:"bidan",
         }
 
         const secretKey = process.env.JWT_SECRET; 

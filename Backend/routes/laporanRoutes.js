@@ -9,7 +9,9 @@ class LaporanRoutes {
 
     getRoutes() {
         return this.router
-            .get('/histori/laporan/baca', this.laporanController.bacaLaporanKunjungan);
+            .get('/histori/laporan/baca', this.laporanController.bacaLaporanKunjungan)
+            .get('/laporan-kunjungan/:id_ibu', this.laporanController.viewAllLaporanKunjunganByIbu)
+            .post('/laporan-kunjungan', this.laporanController.addLaporanKunjungan);
     }
 }
 

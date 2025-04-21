@@ -27,7 +27,7 @@ class BidanController {
             if (emailInUseBidan || emailInUseIbu) {
                 return res.status(403).json({ message: "Email sudah digunakan" });
             }
-            
+
 
             await auth().createUser({
                 email: email_bidan,
@@ -58,7 +58,7 @@ class BidanController {
                         <p>Atau salin dan tempel link ini di browser Anda:</p>
                         <p>${verificationLink}</p>`
             };
-
+            
             await transporter.sendMail(mailOptions);
 
             await this.bidanService.createBidan({
@@ -85,55 +85,55 @@ class BidanController {
     verifyEmail = async (req, res) => {
         try {
             const { email } = req.body;
-    
+
             if (!email) {
                 return res.status(400).json({ message: "Email tidak ditemukan" });
             }
-    
+
             // Ambil data user dari Firebase Auth
             const userRecord = await auth().getUserByEmail(email);
-    
+
             if (!userRecord.emailVerified) {
                 return res.status(400).json({ message: "Email belum diverifikasi. Silakan klik link dari email." });
             }
-    
+
             // Cari data bidan di Firestore
             const bidanSnapshot = await db.collection("Bidan").where("email_bidan", "==", email).get();
-    
+
             if (bidanSnapshot.empty) {
                 return res.status(404).json({ message: "Pengguna tidak ditemukan di database" });
             }
-    
+
             const bidanDoc = bidanSnapshot.docs[0];
-    
+
             const verifikasiStatus = bidanDoc.data().verifikasi_email;
             if (verifikasiStatus === 2) {
                 return res.status(200).json({ message: "Email sudah diverifikasi sebelumnya." });
             }
-    
+
             await bidanDoc.ref.update({ verifikasi_email: 2 });
-    
+
             res.status(200).json({ message: "Email berhasil diverifikasi!" });
         } catch (error) {
             console.error("Verifikasi gagal:", error);
             res.status(500).json({ message: "Verifikasi gagal: " + error.message });
         }
-    };    
+    };
 
     loginBidan = async (req, res) => {
-        try{
+        try {
             const { email_bidan, sandi_bidan } = req.body;
 
-            if(!email_bidan || !sandi_bidan) {
+            if (!email_bidan || !sandi_bidan) {
                 return res.status(403).json({ message: "email dan sandi tidak boleh kosong!" });
             }
 
-            const emailExistsInBidan = await this.bidanService.findByEmail(email_bidan); 
-            
+            const emailExistsInBidan = await this.bidanService.findByEmail(email_bidan);
+
             if (!emailExistsInBidan) {
                 return res.status(403).json({ message: "Email tidak terdaftar" });
             }
-            
+
 
             const authToken = await this.bidanService.loginBidan({
                 email_bidan,
@@ -143,32 +143,31 @@ class BidanController {
             res.cookie('authToken', authToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                maxAge: 3600000, 
+                maxAge: 3600000,
             });
-        
-    
+
+
             res.status(200).json({ message: "login sukses", authToken: authToken });
-        }catch (error) {
+        } catch (error) {
             res.status(500).json({ message: error.message });
         }
     };
 
-    
-    viewAllIbu = async (req, res) => {
-        try{
-            const kodeBidan = req.params.kodeBidan;
 
-            const result = await this.ibuService.getAllIbuByKodeBidan(kodeBidan);
+    viewAllIbu = async (req, res) => {
+        try {
+            const namaBidan = req.params.namaBidan;
+
+            const result = await this.ibuService.getAllIbuWithCatatanByNamaBidan(namaBidan);
             // console.log(result);
             res.status(200).json({ dataIbu: result });
 
-        }catch (error){
-            console.error(error)
+        } catch (error) {
             res.status(500).json({ message: error.message });
 
         }
-    }   
+    }
 }
 
-module.exports = { BidanController };   
+module.exports = { BidanController };
 

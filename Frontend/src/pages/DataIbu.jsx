@@ -61,7 +61,7 @@ const DataIbu = () => {
             <main className='bg-[#f0f0f0] w-full min-h-screen'>
                 <section className='container flex flex-col py-14 gap-4'>
                     {!loading ? (
-                        momDatas.length > 0 ? (
+                        Array.isArray(momDatas) && momDatas.length > 0 ? (
                             momDatas.map((ibu, index) => (
                                 <DataIbuCard key={index} ibu={ibu} />
                             ))
@@ -73,6 +73,7 @@ const DataIbu = () => {
                     ) : (
                         <div className='min-h-screen flex justify-center items-center'>Loading...</div>
                     )}
+
                 </section>
             </main>
         </>
