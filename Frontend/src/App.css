@@ -5,6 +5,8 @@
   text-align: center;
 }
 
+
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -39,4 +41,94 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+/* App.css */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, p {
+  font-weight: 600; /* Menggunakan Poppins Semibold */
+}
+
+/* App.css */
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* Styling untuk checkbox yang telah dimodifikasi */
+.custom-checkbox {
+  -webkit-appearance: none; /* Hapus tampilan default checkbox */
+  -moz-appearance: none; /* Hapus tampilan default checkbox */
+  appearance: none; /* Hapus tampilan default checkbox */
+  width: 30px;
+  height: 20px;
+  border: 2px solid #4fa0ff; /* Warna border luar */
+  border-radius: 5px; /* Menjadikan sudut sedikit melengkung */
+  background-color: white; /* Warna latar belakang dalamnya putih */
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* Ukuran tetap untuk checkbox */
+.custom-checkbox {
+  width: 28px;
+  height: 20px;
+  appearance: none;
+  border: 2px solid #4fa0ff;
+  border-radius: 4px;
+  background-color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+
+/* Saat checkbox dicentang */
+.custom-checkbox:checked {
+  background-color: #4fa0ff;
+  border-color: #4fa0ff;
+}
+
+/* Hapus kotak putih di dalam checkbox saat dicentang */
+.custom-checkbox:checked::before {
+  content: none;
+}
+
+/* Styling untuk teks */
+.custom-checkbox + span {
+  color: black;
+  font-weight: normal;
+}
+
+.custom-checkbox:checked + span {
+  color: black;
+}
+
+
+/* Styling untuk Textarea */
+textarea {
+  width: 100%;
+  padding: 12px; /* Menambahkan padding untuk memperbesar area ketik */
+  border: 1px solid #4fa0ff; /* Border biru dengan ketebalan 10px */
+  background-color: #FFFFFF; /* Background putih */
+  border-radius: 10px; /* Sudut melengkung */
+  outline: 2px solid #4fa0ff; /* Outline biru dengan ketebalan 4px */
+  transition: border-color 0.3s ease, outline-color 0.3s ease; /* Transisi untuk border dan outline */
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Menjaga border tetap biru saat fokus */
+textarea:focus {
+  outline: 2px solid #4fa0ff; /* Outline biru tetap tebal saat fokus */
+  border-color: #4fa0ff; /* Border tetap biru saat fokus */
+}
+
+/* Menjaga background tetap putih */
+textarea:active, textarea:focus {
+  background-color: #FFFFFF; /* Menjaga background tetap putih */
 }

@@ -38,6 +38,25 @@ class CatatanController {
         }
     }
 
+    bacaCatatan = async (req, res) => {
+        const { id_ibu, tanggal } = req.query;
+
+        if (!id_ibu || !tanggal) {
+            return res.status(400).json({ message: "id_ibu dan tanggal wajib diisi" });
+        }
+
+        try {
+            const catatan = await this.catatanService.getCatatanByTanggal(id_ibu, tanggal);
+
+            if (!catatan) {
+                return res.status(404).json({ message: "Catatan tidak ditemukan" });
+            }
+
+            return res.status(200).json({ message: "Berhasil mengambil catatan", data: catatan });
+        } catch (error) {
+            return res.status(500).json({ message: "Terjadi kesalahan saat mengambil catatan", error: error.message });
+        }
+    };
 
 }
 

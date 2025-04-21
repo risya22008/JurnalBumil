@@ -11,6 +11,7 @@ class CatatanRoutes {
         return this.router
             .post("/catatan", this.catatanController.createNewCatatan)
             .get("/catatan/:idIbu", this.catatanController.viewAllCatatan)
+            .get("/histori/catatan/baca", this.catatanController.bacaCatatan);
     }
 }
 

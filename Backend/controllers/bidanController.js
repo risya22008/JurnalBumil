@@ -152,6 +152,7 @@ class BidanController {
             res.status(500).json({ message: error.message });
         }
     };
+
     
     viewAllIbu = async (req, res) => {
         try{
@@ -168,5 +169,5 @@ class BidanController {
     }   
 }
 
-module.exports = { BidanController };
+module.exports = { BidanController };   
 
