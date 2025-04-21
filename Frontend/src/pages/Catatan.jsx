@@ -69,7 +69,7 @@ const CatatanHarian = () => {
       catatan_konsumsi: formData.makanan,
       gejala: formData.kondisi.map(Number),
       rating: formData.skorHarian,
-      date: new Date().toISOString(),
+      date: new Date().toISOString().split("T")[0],
       id_ibu,
     };
   

@@ -7,6 +7,7 @@ export default function Laporan() {
     const [token, setToken] = useState(null)
     const [decodedToken, setDecodedToken] = useState(null)
     const [momDatas, setMomDatas] = useState([])
+    const today = new Date();
     const [selectedMom, setSelectedMom] = useState("")
     const [loading, setLoading] = useState(true)
     const [formData, setFormData] = useState({
@@ -97,7 +98,9 @@ export default function Laporan() {
                 tes_hepatitis: formData.hepatitis,
                 hasil_skrining: formData.hasilSkrining,
                 id_ibu: selectedMom,
-                id_bidan: decodedToken?.id
+                date: new Date().toISOString().split("T")[0],
+                id_bidan: decodedToken?.id,
+
             });
 
             alert('Laporan berhasil disimpan!');
@@ -151,6 +154,8 @@ export default function Laporan() {
                             </option>
                         ))}
                     </select>
+
+
                 </div>}
 
                 <form onSubmit={handleSubmit}>

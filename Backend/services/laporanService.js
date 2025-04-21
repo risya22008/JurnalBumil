@@ -65,7 +65,7 @@ class LaporanService {
             tinggi_rahim: laporanInfo.tinggi_rahim,
             id_ibu: laporanInfo.id_ibu,
             id_bidan: laporanInfo.id_bidan,
-            tanggal: now.toISOString()
+            tanggal: laporanInfo.date.toString(),
           });
             
 
