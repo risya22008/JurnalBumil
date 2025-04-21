@@ -58,7 +58,7 @@ class BidanController {
                         <p>Atau salin dan tempel link ini di browser Anda:</p>
                         <p>${verificationLink}</p>`
             };
-
+            
             await transporter.sendMail(mailOptions);
 
             await this.bidanService.createBidan({
