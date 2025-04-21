@@ -43,7 +43,7 @@ class LaporanService {
             id_bidan: laporanInfo.id_bidan,
             tanggal: now.toISOString()
           });
-
+            
 
           console.log("Document written with ID: ", docRef.id);
           return docRef.id;
