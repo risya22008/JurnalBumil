@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/navbar'
 import { decodeJwt } from '../utils/decode'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
+
 
 export default function Laporan() {
     const [token, setToken] = useState(null)
@@ -27,7 +30,8 @@ export default function Laporan() {
         sifilis: "",
         hepatitis: "",
         hasilSkrining: "",
-    });
+    })
+    const navigate = useNavigate();;
     useEffect(() => {
         const fetchData = async () => {
             if (!token || !decodedToken) return
@@ -104,7 +108,8 @@ export default function Laporan() {
             });
 
             alert('Laporan berhasil disimpan!');
-            window.location.reload();
+            const todayDate = new Date().toISOString().split("T")[0];
+    navigate(`/bacaLaporan?id_ibu=${selectedMom}&tanggal=${todayDate}`);
         } catch (error) {
             console.error('Gagal menyimpan laporan:', error);
             alert('Terjadi kesalahan saat menyimpan laporan');
@@ -112,25 +117,48 @@ export default function Laporan() {
     };
 
     const fields = [
-        { label: "Berat Badan", name: "beratBadan", unit: "kg" },
-        { label: "Tinggi Badan", name: "tinggiBadan", unit: "cm" },
-        { label: "Lingkar Lengan", name: "lingkarLengan", unit: "cm" },
-        { label: "Tinggi Rahim", name: "tinggiRahim", unit: "cm" },
-        { label: "Posisi Janin", name: "posisiJanin" },
-        { label: "Denyut Nadi Janin", name: "denyutNadiJanin", unit: "b/m" },
-        { label: "Tekanan Darah", name: "tekananDarah", unit: "mmHg" },
-        { label: "Tablet Tambah Darah", name: "tabletTambahDarah" },
-        { label: "Tes Hemoglobin", name: "tesHemoglobin", unit: "g/dL" },
-        { label: "Imunisasi Tetanus", name: "imunisasiTetanus" },
-        { label: "Gula Darah", name: "gulaDarah", unit: "mg/dL" },
-        { label: "Golongan Darah", name: "golonganDarah" },
+        { label: "Berat Badan", name: "beratBadan", unit: "kg", type: "number" },
+        { label: "Tinggi Badan", name: "tinggiBadan", unit: "cm", type: "number" },
+        { label: "Lingkar Lengan", name: "lingkarLengan", unit: "cm", type: "number" },
+        { label: "Tinggi Rahim", name: "tinggiRahim", unit: "cm", type: "number" },
+        { label: "Posisi Janin", name: "posisiJanin", type: "text" },
+        { label: "Denyut Nadi Janin", name: "denyutNadiJanin", unit: "b/m", type: "number" },
+        { label: "Tekanan Darah", name: "tekananDarah", unit: "mmHg", type: "text" },
+        { label: "Tablet Tambah Darah", name: "tabletTambahDarah", type: "number" },
+        { label: "Tes Hemoglobin", name: "tesHemoglobin", unit: "g/dL", type: "number" },
+        { label: "Imunisasi Tetanus", name: "imunisasiTetanus", type: "text" },
+        { label: "Gula Darah", name: "gulaDarah", unit: "mg/dL", type: "number" },
+        {
+            label: "Golongan Darah", name: "golonganDarah", type: "select",
+            options: ["A", "B", "AB", "O"]
+        },
     ];
+    
 
     const fields2 = [
-        { label: "HIV", name: "hiv" },
-        { label: "Sifilis", name: "sifilis" },
-        { label: "Hepatitis", name: "hepatitis" },
+        {
+            label: "HIV", name: "hiv", type: "select",
+            options: [
+                { label: "Ya", value: "true" },
+                { label: "Tidak", value: "false" }
+            ]
+        },
+        {
+            label: "Sifilis", name: "sifilis", type: "select",
+            options: [
+                { label: "Ya", value: "true" },
+                { label: "Tidak", value: "false" }
+            ]
+        },
+        {
+            label: "Hepatitis", name: "hepatitis", type: "select",
+            options: [
+                { label: "Ya", value: "true" },
+                { label: "Tidak", value: "false" }
+            ]
+        },
     ];
+    
 
     return (
         <>
@@ -159,66 +187,91 @@ export default function Laporan() {
                 </div>}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-16">
-                        {fields.map((field) => (
-                            <div key={field.name} className='flex flex-col items-start gap-2'>
-                                <label className="block font-semibold text-base md:text-2xl mb-1">{field.label}</label>
-                                <div className="relative w-full">
-                                    <input
-                                        type="text"
-                                        name={field.name}
-                                        value={formData[field.name]}
-                                        onChange={handleChange}
-                                        className="w-full border border-[#4FA0FF] rounded-md md:rounded-[20px] h-14 md:h-20 px-3 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    />
-                                    {field.unit && (
-                                        <span className="absolute right-8 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
-                                            {field.unit}
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-16 mt-8'>
-                        {fields2.map((field) => (
-                            <div key={field.name} className='flex flex-col items-start gap-2'>
-                                <label className="block font-semibold text-base md:text-2xl mb-1">{field.label}</label>
-                                <div className="relative w-full">
-                                    <input
-                                        type="text"
-                                        name={field.name}
-                                        value={formData[field.name]}
-                                        onChange={handleChange}
-                                        className="w-full border border-[#4FA0FF] rounded-md md:rounded-[20px] h-14 md:h-20 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="mt-6 flex flex-col items-start gap-2 md:p-10">
-                        <label className="block font-semibold text-base md:text-2xl mb-1">Hasil Skrining</label>
-                        <textarea
-                            name="hasilSkrining"
-                            value={formData.hasilSkrining}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-16">
+        {fields.map((field) => (
+            <div key={field.name} className='flex flex-col items-start gap-2'>
+                <label className="block font-semibold text-base md:text-2xl mb-1">{field.label}</label>
+                <div className="relative w-full">
+                    {field.type === "select" ? (
+                        <select
+                            name={field.name}
+                            value={formData[field.name]}
                             onChange={handleChange}
-                            placeholder="Komentar dan Saran Bidan"
-                            cols={6}
-                            className="w-full h-32 md:h-40 border border-[#4FA0FF] rounded-[20px] p-3"
-                        />
-                    </div>
-
-                    <div className="mt-6 text-right">
-                        <button
-                            type="submit"
-                            className="bg-[#4FA0FF] text-white px-6 py-2 rounded-md transition"
+                            className="w-full border border-[#4FA0FF] rounded-md md:rounded-[20px] h-14 md:h-20 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         >
-                            Submit
-                        </button>
-                    </div>
-                </form>
+                            <option value="">Pilih</option>
+                            {field.options.map((opt) =>
+                                typeof opt === "string" ? (
+                                    <option key={opt} value={opt}>{opt}</option>
+                                ) : (
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                )
+                            )}
+                        </select>
+                    ) : (
+                        <>
+                            <input
+                                type={field.type}
+                                name={field.name}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                                className="w-full border border-[#4FA0FF] rounded-md md:rounded-[20px] h-14 md:h-20 px-3 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                            {field.unit && (
+                                <span className="absolute right-8 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
+                                    {field.unit}
+                                </span>
+                            )}
+                        </>
+                    )}
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <div className='grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-16 mt-8'>
+        {fields2.map((field) => (
+            <div key={field.name} className='flex flex-col items-start gap-2'>
+                <label className="block font-semibold text-base md:text-2xl mb-1">{field.label}</label>
+                <div className="relative w-full">
+                    <select
+                        name={field.name}
+                        value={formData[field.name]}
+                        onChange={handleChange}
+                        className="w-full border border-[#4FA0FF] rounded-md md:rounded-[20px] h-14 md:h-20 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                        <option value="">Pilih</option>
+                        {field.options.map((opt) => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <div className="mt-6 flex flex-col items-start gap-2 md:p-10">
+        <label className="block font-semibold text-base md:text-2xl mb-1">Hasil Skrining</label>
+        <textarea
+            name="hasilSkrining"
+            value={formData.hasilSkrining}
+            onChange={handleChange}
+            placeholder="Komentar dan Saran Bidan"
+            cols={6}
+            className="w-full h-32 md:h-40 border border-[#4FA0FF] rounded-[20px] p-3"
+        />
+    </div>
+
+    <div className="mt-6 text-right">
+        <button
+            type="submit"
+            className="bg-[#4FA0FF] text-white px-6 py-2 rounded-md transition"
+        >
+            Submit
+        </button>
+    </div>
+</form>
+
             </main>
         </>
     )
