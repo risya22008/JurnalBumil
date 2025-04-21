@@ -8,6 +8,7 @@ import Catatan from "./pages/Catatan";
 import NotVerivied from "./pages/notVerified";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DataIbu from "./pages/DataIbu";
+import Laporan from "./pages/Laporan";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Route path="/verifikasi" element={<NotVerivied/>} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/data" element={<ProtectedRoute><DataIbu /></ProtectedRoute>} />
+      <Route path="/laporan" element={<ProtectedRoute><Laporan /></ProtectedRoute>} />
     </Routes>
   );
 };

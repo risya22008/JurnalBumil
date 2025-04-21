@@ -7,9 +7,11 @@ const Navbar = ({ user, onLogout }) => {
   const decodedToken = token ? decodeJwt(token) : null;
   const navigate = useNavigate();
   const handleLogout = () => {
-    onLogout();
-    navigate("/beranda");
+    localStorage.removeItem("token"); // Hapus token langsung di sini
+    navigate("/login"); // Redirect ke halaman login
   };
+  
+  
 
 //   //testing
 //   user = { name: "Panji Pragiwaksono", role: "bidan" }; 
