@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "../components/Header";
 import { decodeJwt } from "../utils/decode";
 import Footer from "../components/Footer";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import "../App.css";
 import RequireAuth from "../components/RequireAuth";
 
@@ -58,7 +58,7 @@ const CatatanHarian = () => {
     const token = localStorage.getItem("token");
     const decodedToken = decodeJwt(token);
   
-    const id_ibu = decodedToken?.nama;
+    const id_ibu = decodedToken?.id;
     if (!id_ibu) {
       alert("ID pengguna tidak ditemukan di token.");
       return;

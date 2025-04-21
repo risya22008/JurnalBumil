@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import DataIbu from "./pages/DataIbu";
 import Laporan from "./pages/Laporan";
 import BacaLaporan from "./pages/BacaLaporan";
+import BacaCatatan from "./pages/BacaCatatan";
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
       <Route path="/data" element={<ProtectedRoute><DataIbu /></ProtectedRoute>} />
       <Route path="/laporan" element={<ProtectedRoute><Laporan /></ProtectedRoute>} />
       <Route path="/bacaLaporan" element={<ProtectedRoute><BacaLaporan /></ProtectedRoute>} />
+      <Route path="/bacaCatatan" element={<ProtectedRoute><BacaCatatan /></ProtectedRoute>} />
     </Routes>
   );
 };
