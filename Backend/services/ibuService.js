@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { db } = require("../firebaseClient");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken"); // Kalau kamu pakai JWT
 
 class IbuService {
     async createIbu(ibu) {
