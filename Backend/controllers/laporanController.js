@@ -48,25 +48,38 @@ class LaporanController {
       }
     };
 
-
     bacaLaporanKunjungan = async (req, res) => {
       const { id_ibu, tanggal } = req.query;
-
-      if (!id_ibu || !tanggal) {
-        return res.status(400).json({ message: 'id_ibu dan tanggal wajib diisi' });
+    
+      // Validasi input
+      if (!id_ibu || !tanggal || isNaN(Date.parse(tanggal))) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'Parameter id_ibu dan tanggal (dalam format valid) wajib diisi',
+        });
       }
-
+    
       try {
         const laporan = await this.laporanService.getLaporanByIbuAndTanggal(id_ibu, tanggal);
-
+    
         if (!laporan) {
-          return res.status(404).json({ message: 'Laporan tidak ditemukan' });
+          return res.status(404).json({
+            status: 'not_found',
+            message: 'Laporan tidak ditemukan untuk ID Ibu dan tanggal tersebut',
+          });
         }
-
-        res.status(200).json(laporan);
+    
+        return res.status(200).json({
+          status: 'success',
+          message: 'Laporan berhasil diambil',
+          data: laporan,
+        });
       } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Terjadi kesalahan pada server' });
+        console.error('Error saat membaca laporan kunjungan:', error.message);
+        return res.status(500).json({
+          status: 'error',
+          message: 'Terjadi kesalahan pada server',
+        });
       }
     };
 }

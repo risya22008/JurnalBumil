@@ -3,21 +3,45 @@ const { db } = require("../firebaseClient");
 class LaporanService {
     getLaporanByIbuAndTanggal = async (idIbu, tanggal) => {
         try {
-            const snapshot = await db.collection('kondisi_janin')
+          const snapshot = await db.collection('kondisi_janin')
             .where('id_ibu', '==', idIbu)
             .where('tanggal', '==', tanggal)
             .limit(1)
             .get();
-
-            if (snapshot.empty) {
+      
+          if (snapshot.empty) {
             return null;
-            }
+          }
+      
+          const laporanData = snapshot.docs[0].data();
 
-            return snapshot.docs[0].data();
+          const ibuDoc = await db.collection("Ibu").doc(idIbu).get();
+      
+          if (!ibuDoc.exists) {
+            throw new Error("Data ibu tidak ditemukan");
+          }
+      
+          const ibuData = ibuDoc.data();
+
+          const tanggalRegistrasi = ibuData.tanggal_registrasi.toDate(); 
+          const usiaAwal = ibuData.usia_kehamilan || 0;
+      
+          const sekarang = new Date();
+          const selisihHari = Math.floor((sekarang - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
+          const mingguTambahan = Math.floor(selisihHari / 7);
+          const usiaKehamilanSekarang = usiaAwal + mingguTambahan;
+
+          return {
+            ...laporanData,
+            nama_ibu: ibuData.nama_ibu,
+            usia_kehamilan: usiaKehamilanSekarang,
+          };
+      
         } catch (error) {
-            throw new Error('Gagal mengambil data laporan: ' + error.message);
+          throw new Error('Gagal mengambil data laporan: ' + error.message);
         }
-    };
+      };
+          
 
     async addNewLapkun(laporanInfo){
         const now = new Date();
