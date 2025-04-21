@@ -4,6 +4,7 @@ import FormLayout from "../components/FormLayout";
 import FormInput from "../components/FormInput";
 import PasswordInput from "../components/PasswordInput";
 import SubmitButton from "../components/SubmitButton";
+import { useNavigate } from "react-router-dom";
 
 const RegisterBidan = () => {
   const [form, setForm] = useState({
@@ -17,6 +18,8 @@ const RegisterBidan = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -46,6 +49,7 @@ const RegisterBidan = () => {
         kode_lembaga: "",
         kode_bidan: "",
       });
+      navigate("/verifikasi");
     } catch (err) {
       const msg = err.response?.data?.message || "Terjadi kesalahan saat registrasi.";
       setError(msg);
