@@ -45,6 +45,8 @@ class LaporanService {
 
     async addNewLapkun(laporanInfo){
         const now = new Date();
+        const lokalTanggal = new Date(laporanInfo.date);
+        const formattedTanggal = lokalTanggal.toLocaleDateString('en-CA');
 
         const docRef = await db.collection('kondisi_janin').add({
             berat_badan: laporanInfo.berat_badan,
@@ -65,7 +67,7 @@ class LaporanService {
             tinggi_rahim: laporanInfo.tinggi_rahim,
             id_ibu: laporanInfo.id_ibu,
             id_bidan: laporanInfo.id_bidan,
-            tanggal: laporanInfo.date.toString(),
+            tanggal: formattedTanggal, 
           });
             
 
