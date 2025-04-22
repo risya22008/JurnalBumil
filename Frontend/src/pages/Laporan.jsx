@@ -33,6 +33,8 @@ export default function Laporan() {
     })
     const navigate = useNavigate();;
     useEffect(() => {
+        const now = new Date();
+        console.log("Tanggal sekarang:", now.toLocaleDateString("id-ID"));
         const fetchData = async () => {
             if (!token || !decodedToken) return
             setLoading(true)
@@ -108,7 +110,7 @@ export default function Laporan() {
             });
 
             alert('Laporan berhasil disimpan!');
-            const todayDate = new Date().toISOString().split("T")[0];
+           const todayDate = new Date().toLocaleDateString("sv-SE"); // Format jadi YYYY-MM-DD
     navigate(`/bacaLaporan?id_ibu=${selectedMom}&tanggal=${todayDate}`);
         } catch (error) {
             console.error('Gagal menyimpan laporan:', error);

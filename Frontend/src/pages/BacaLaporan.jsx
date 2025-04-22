@@ -14,6 +14,7 @@ const BacaLaporanKunjungan = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    
     const fetchLaporan = async () => {
       try {
         const res = await fetch(`http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`);
