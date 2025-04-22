@@ -1,20 +1,64 @@
+
+GET http://localhost:8000/api/laporan-kunjungan/6VonE4kAcGRQEwTUOE9w
+
+
+###
+POST  http://localhost:8000/api/laporan-kunjungan
+Content-Type: application/json
+
+{
+    "berat_badan": 48,
+    "denyut_nadi_janin": 80,
+    "golongan_darah": "A",
+    "gula_darah": 120,
+    "hasil_skrining": "Ibu dalam keadaan sehar",
+    "hiv": false,
+    "imunisasi_tetanus": 0,
+    "lingkar_lengan": 19,
+    "posisi_janin": "atas",
+    "sifilis": false,
+    "tablet_tambah_darah": 0,
+    "tekanan_darah": 110,
+    "tes_hemoglobin": 20,
+    "tes_hepatitis": false,
+    "tinggi_badan":  170,
+    "tinggi_rahim": 40,
+    "id_ibu": "6VonE4kAcGRQEwTUOE9w",
+    "id_bidan": "24I0xSUGlWdjmp2KdQc8"
+}
+
+
+###
+POST  http://localhost:8000/api/bidan
+Content-Type: application/json
+
+{
+  "nama_bidan": "Leonardo Louis",
+  "email_bidan": "leonardo2112.ln@gmail.com",
+  "sandi_bidan": "Ayamleo12",
+  "kode_lembaga": "BDN123",
+  "kode_bidan": "B123"
+}
+
+
+###
 GET http://localhost:8000/api/bidan/BDN123/ibu
 
 
 
 ###
-GET http://localhost:8000/api/catatan/HIl72DUb1j77YFl4OiwP
+GET http://localhost:8000/api/catatan/0NfCzEt9FaOZQx4r1JNq
 
 ###
 POST http://localhost:8000/api/catatan/
 Content-Type: application/json
 
 {
-  "catatan_kondisi": "sehat ae", 
-  "catatan_konsumsi": "maknanan sehat",
-  "gejala": [1, 2],
+  "catatan_kondisi": "sehat aAJJAAA", 
+  "catatan_konsumsi": "AYAM GORENGG",
+  "gejala": [1],
   "id_ibu": "0NfCzEt9FaOZQx4r1JNq",
-  "date": "2025-04-17T01:33:28Z",
+  "date": "2025-04-16T01:33:28Z",
   "rating": 4
 }
 
@@ -32,8 +76,8 @@ POST http://localhost:8000/api/login/ibu
 Content-Type: application/json
 
 {
-  "email_ibu": "ibubebek3@gmail.com", 
-  "sandi_ibu": "ibu"
+  "email_ibu": "leonardo2112.ln@gmail.com", 
+  "sandi_ibu": "louis12"
 }
 
 ###
@@ -41,9 +85,9 @@ POST http://localhost:8000/api/ibu
 Content-Type: application/json
 
 {
-  "nama_ibu": "Ibu Bebek3",
-  "email_ibu": "ibubebek3@gmail.com",
-  "sandi_ibu": "ibubebek3",
+  "nama_ibu": "Leo",
+  "email_ibu": "leonardo2112.ln@gmail.com",
+  "sandi_ibu": "louis12",
   "usia_kehamilan": "10",
   "bidan": "ayam",
   "tanggal_registrasi": "08/04/2025"
@@ -63,3 +107,13 @@ Content-Type: application/json
 }
 
 
+
+
+###
+POST http://localhost:8000/api/ibu/verifikasi
+Content-Type: application/json
+
+{
+  "oobCode": "QmsX4Kb6AFnTFlup0sY3Nl2y1LbfNxfF5j6uWZUM_y4AAAGWV3QjHw",
+  "email": "leonardo2112.ln@gmail.com"
+}

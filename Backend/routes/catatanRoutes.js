@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { CatatanController } = require("../controllers/catatanController.js");
+const { authMiddleware } = require("../middlewares/authMiddleware.js");
 
 class CatatanRoutes {
     constructor() {
@@ -9,9 +10,9 @@ class CatatanRoutes {
 
     getRoutes() {
         return this.router
-            .post("/catatan", this.catatanController.createNewCatatan)
-            .get("/catatan/:idIbu", this.catatanController.viewAllCatatan)
-            .get("/histori/catatan/baca", this.catatanController.bacaCatatan);
+            .post("/catatan", authMiddleware, this.catatanController.createNewCatatan)
+            .get("/catatan/:idIbu", authMiddleware, this.catatanController.viewAllCatatan)
+            .get("/histori/catatan/baca", authMiddleware, this.catatanController.bacaCatatan);
     }
 }
 

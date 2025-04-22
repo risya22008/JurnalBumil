@@ -3,11 +3,14 @@ import axios from "axios";
 import Header from "../components/Header";
 import { decodeJwt } from "../utils/decode";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import "../App.css";
 import RequireAuth from "../components/RequireAuth";
+import { useNavigate } from 'react-router-dom';
 
 const CatatanHarian = () => {
+  const navigate = useNavigate();
+
   const symptoms = [
     ["Pusing", "Diare", "Jantung berdebar kencang"],
     ["Demam", "Keputihan", "Batuk pilek"],
@@ -64,24 +67,43 @@ const CatatanHarian = () => {
       return;
     }
   
+    const tanggal = new Date().toISOString().split("T")[0];
+
     const postData = {
       catatan_kondisi: formData.kondisiHarian,
       catatan_konsumsi: formData.makanan,
       gejala: formData.kondisi.map(Number),
       rating: formData.skorHarian,
-      date: new Date().toISOString().split("T")[0],
+      date: tanggal,
       id_ibu,
     };
-  
+    
     try {
-      await axios.post("http://localhost:8000/api/catatan", postData);
+      await axios.post("http://localhost:8000/api/catatan", postData,
+        {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      
       alert("Catatan harian berhasil dikirim!");
+      
+      
       setFormData({
         kondisi: [],
         makanan: "",
         kondisiHarian: "",
         skorHarian: 0,
       });
+
+      navigate(`/bacaCatatan?id_ibu=${id_ibu}&tanggal=${tanggal}`);
+
+
+      
+      
+
+      
     } catch (err) {
       const msg = err.response?.data?.message || "Terjadi kesalahan saat mengirim catatan.";
       console.error("Error:", msg);
