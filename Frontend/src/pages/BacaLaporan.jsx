@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const BacaLaporanKunjungan = () => {
+const BacaLaporan = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -33,6 +33,7 @@ const BacaLaporanKunjungan = () => {
         setLoading(false);
       }
     };
+    
 
     if (idIbu && tanggal) {
       fetchLaporan();
@@ -131,4 +132,4 @@ const Field = ({ label, value }) => (
   </p>
 );
 
-export default BacaLaporanKunjungan;
+export default BacaLaporan;
