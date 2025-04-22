@@ -107,11 +107,17 @@ export default function Laporan() {
                 date: new Date().toISOString().split("T")[0],
                 id_bidan: decodedToken?.id,
 
-            });
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        
+        );
 
             alert('Laporan berhasil disimpan!');
-           const todayDate = new Date().toLocaleDateString("sv-SE"); // Format jadi YYYY-MM-DD
-    navigate(`/bacaLaporan?id_ibu=${selectedMom}&tanggal=${todayDate}`);
+            const todayDate = new Date().toLocaleDateString("sv-SE"); // Format jadi YYYY-MM-DD
+            navigate(`/bacaLaporan?id_ibu=${selectedMom}&tanggal=${todayDate}`);
         } catch (error) {
             console.error('Gagal menyimpan laporan:', error);
             alert('Terjadi kesalahan saat menyimpan laporan');

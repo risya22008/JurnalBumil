@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const BacaLaporanKunjungan = () => {
+const BacaLaporan = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -17,7 +17,15 @@ const BacaLaporanKunjungan = () => {
     
     const fetchLaporan = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`);
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          `http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!res.ok) throw new Error("Gagal mengambil data laporan.");
         const data = await res.json();
         setLaporan(data);
@@ -27,6 +35,7 @@ const BacaLaporanKunjungan = () => {
         setLoading(false);
       }
     };
+    
 
     if (idIbu && tanggal) {
       fetchLaporan();
@@ -125,4 +134,4 @@ const Field = ({ label, value }) => (
   </p>
 );
 
-export default BacaLaporanKunjungan;
+export default BacaLaporan;
