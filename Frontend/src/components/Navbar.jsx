@@ -22,12 +22,12 @@ const Navbar = ({ user, onLogout }) => {
     <nav className="flex items-center justify-between px-6 py-4 shadow bg-white">
       {/* Kiri: Logo dan Navigasi */}
       <div className="flex items-center space-x-6">
-        <Link to="/beranda" className="flex items-center space-x-2">
+        <Link to="/dashboard" className="flex items-center space-x-2">
           <img src="/logoreal.png" alt="Logo" className="w-6 h-6" />
           <span className="font-bold text-xl text-gray-800">Jurnal Bumil</span>
         </Link>
 
-        <Link to="/beranda" className="text-gray-700 hover:underline">Beranda</Link>
+        <Link to="/dashboard" className="text-gray-700 hover:underline">Beranda</Link>
 
         {/* Role Ibu */}
         {decodedToken?.role === "ibu" && (
