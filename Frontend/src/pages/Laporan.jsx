@@ -32,6 +32,7 @@ export default function Laporan() {
         hasilSkrining: "",
     })
     const navigate = useNavigate();;
+
     useEffect(() => {
         const now = new Date();
         console.log("Tanggal sekarang:", now.toLocaleDateString("id-ID"));
@@ -107,7 +108,13 @@ export default function Laporan() {
                 date: new Date().toISOString().split("T")[0],
                 id_bidan: decodedToken?.id,
 
-            });
+            }, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+        );
 
             alert('Laporan berhasil disimpan!');
            const todayDate = new Date().toLocaleDateString("sv-SE"); // Format jadi YYYY-MM-DD

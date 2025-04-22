@@ -14,10 +14,16 @@ const BacaLaporanKunjungan = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    
+    const token = localStorage.getItem("token");
     const fetchLaporan = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`);
+        const res = await fetch(`http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
+          {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+          }
+        );
         if (!res.ok) throw new Error("Gagal mengambil data laporan.");
         const data = await res.json();
         setLaporan(data);
