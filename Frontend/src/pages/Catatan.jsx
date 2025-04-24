@@ -199,7 +199,7 @@ const CatatanHarian = () => {
         {/* Skor Harian - Rating Bintang */}
         <div className="mt-8 mb-4 text-left">
           <p className="text-lg font-semibold mb-2 font-poppins">
-            Seberapa puas bunda hari ini?
+            seberapa baik kondisi bunda hari ini?
           </p>
           <div className="flex justify-start gap-2 text-2xl">
               {[1, 2, 3, 4, 5].map((num) => (
