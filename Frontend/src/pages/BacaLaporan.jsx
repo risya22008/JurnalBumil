@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 
 const BacaLaporanKunjungan = () => {
   const location = useLocation();
@@ -12,12 +12,22 @@ const BacaLaporanKunjungan = () => {
   const [laporan, setLaporan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     
     const fetchLaporan = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`);
+
+        const res = await fetch(
+          `http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
         if (!res.ok) throw new Error("Gagal mengambil data laporan.");
         const data = await res.json();
         setLaporan(data);

@@ -96,20 +96,20 @@ const RegisterBidan = () => {
           placeholder="Ulangi kata sandi"
         />
         <FormInput
-          label="Kode Lembaga*"
+          label="Kode Yankes*"
           name="kode_lembaga"
           value={form.kode_lembaga}
           onChange={handleChange}
           required
-          placeholder="Contoh: L123"
+          placeholder="Contoh: 123"
         />
         <FormInput
-          label="Kode Bidan*"
+          label="nomor registrasi bidan*"
           name="kode_bidan"
           value={form.kode_bidan}
           onChange={handleChange}
           required
-          placeholder="Contoh: B456"
+          placeholder="Contoh: 456"
         />
         <SubmitButton>Buat akun</SubmitButton>
       </form>

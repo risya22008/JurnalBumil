@@ -39,7 +39,11 @@ const Register = () => {
     }
 
     try {
-      const { confirmPassword, ...postData } = form;
+      const { confirmPassword, ...restForm } = form;
+      const postData = {
+        ...restForm,
+        usia_kehamilan: Number(restForm.usia_kehamilan) || 0,
+      };
       await axios.post("http://localhost:8000/api/ibu", postData);
       setSuccess("Registrasi berhasil!");
       setForm({

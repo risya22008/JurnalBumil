@@ -86,28 +86,35 @@ export default function Laporan() {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/api/laporan-kunjungan', {
-                berat_badan: formData.beratBadan,
-                tinggi_badan: formData.tinggiBadan,
-                lingkar_lengan: formData.lingkarLengan,
-                tinggi_rahim: formData.tinggiRahim,
-                posisi_janin: formData.posisiJanin,
-                denyut_nadi_janin: formData.denyutNadiJanin,
-                tekanan_darah: formData.tekananDarah,
-                tablet_tambah_darah: formData.tabletTambahDarah,
-                tes_hemoglobin: formData.tesHemoglobin,
-                imunisasi_tetanus: formData.imunisasiTetanus,
-                gula_darah: formData.gulaDarah,
-                golongan_darah: formData.golonganDarah,
-                hiv: formData.hiv,
-                sifilis: formData.sifilis,
-                tes_hepatitis: formData.hepatitis,
-                hasil_skrining: formData.hasilSkrining,
-                id_ibu: selectedMom,
-                date: new Date().toISOString().split("T")[0],
-                id_bidan: decodedToken?.id,
-
-            });
+            const response = await axios.post(
+                'http://localhost:8000/api/laporan-kunjungan',
+                {
+                  berat_badan: formData.beratBadan,
+                  tinggi_badan: formData.tinggiBadan,
+                  lingkar_lengan: formData.lingkarLengan,
+                  tinggi_rahim: formData.tinggiRahim,
+                  posisi_janin: formData.posisiJanin,
+                  denyut_nadi_janin: formData.denyutNadiJanin,
+                  tekanan_darah: formData.tekananDarah,
+                  tablet_tambah_darah: formData.tabletTambahDarah,
+                  tes_hemoglobin: formData.tesHemoglobin,
+                  imunisasi_tetanus: formData.imunisasiTetanus,
+                  gula_darah: formData.gulaDarah,
+                  golongan_darah: formData.golonganDarah,
+                  hiv: formData.hiv,
+                  sifilis: formData.sifilis,
+                  tes_hepatitis: formData.hepatitis,
+                  hasil_skrining: formData.hasilSkrining,
+                  id_ibu: selectedMom,
+                  date: new Date().toISOString().split("T")[0],
+                  id_bidan: decodedToken?.id,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
 
             alert('Laporan berhasil disimpan!');
            const todayDate = new Date().toLocaleDateString("sv-SE"); // Format jadi YYYY-MM-DD
