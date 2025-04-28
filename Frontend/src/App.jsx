@@ -11,6 +11,7 @@ import DataIbu from "./pages/DataIbu";
 import Laporan from "./pages/Laporan";
 import BacaLaporan from "./pages/BacaLaporan";
 import BacaCatatan from "./pages/BacaCatatan";
+import HistoryCatatanIbu from "./pages/HistoryCatatanIbu";
 
 
 const App = () => {
@@ -20,13 +21,14 @@ const App = () => {
       <Route path="/register/ibu" element={<RegisterIbu />} />
       <Route path="/register/bidan" element={<RegisterBidan />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/catatan" element={<Catatan/>} />
-      <Route path="/verifikasi" element={<NotVerivied/>} />
+      <Route path="/catatan" element={<Catatan />} />
+      <Route path="/verifikasi" element={<NotVerivied />} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/data" element={<ProtectedRoute><DataIbu /></ProtectedRoute>} />
       <Route path="/laporan" element={<ProtectedRoute><Laporan /></ProtectedRoute>} />
       <Route path="/bacaLaporan" element={<ProtectedRoute><BacaLaporan /></ProtectedRoute>} />
       <Route path="/bacaCatatan" element={<ProtectedRoute><BacaCatatan /></ProtectedRoute>} />
+      <Route path="/history-catatan/:id" element={<ProtectedRoute><HistoryCatatanIbu /></ProtectedRoute>} />
     </Routes>
   );
 };

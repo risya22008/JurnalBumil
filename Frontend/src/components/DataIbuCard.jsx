@@ -1,5 +1,6 @@
 import React from 'react'
 import InitialAvatar from './Avatar'
+import { Link } from 'react-router-dom'
 
 export default function DataIbuCard({ ibu }) {
     return (
@@ -15,7 +16,9 @@ export default function DataIbuCard({ ibu }) {
                     {ibu.catatan[0]?.catatan_kondisi ?? "-"}
                 </p>
                 <div className='flex gap-6 flex-col md:flex-row'>
-                    <button className='text-sm bg-[#02467C] text-white py-3 px-4 rounded-2xl'>History Catatan</button>
+                    <Link to={`/history-catatan/${ibu.id}`}>
+                        <button className='text-sm bg-[#02467C] text-white py-3 px-4 rounded-2xl'>History Catatan</button>
+                    </Link>
                     <button className='text-sm bg-[#02467C] text-white py-3 px-4 rounded-2xl'>History Kunjungan</button>
                 </div>
             </div>

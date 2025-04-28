@@ -1,11 +1,88 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Navbar from '../components/navbar'
+import InitialAvatar from '../components/Avatar'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
+import Star from '../components/Star'
+import CatatanCard from '../components/CatatanCard'
 
 const HistoryCatatanIbu = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+
+    const { id } = useParams()
+
+    const [momData, setMomData] = useState(null)
+    const [momNotes, setMomNotes] = useState(null)
+    useEffect(() => {
+        const fetchMomData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/ibu/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                setMomData(response.data);
+            } catch (error) {
+                console.error("Error fetching mom data:", error);
+            }
+        }
+
+        const fetchCatatanByMomId = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/catatan/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response.data.data)
+                setMomNotes(response.data.data);
+            } catch (error) {
+                console.error("Error fetching mom notes:", error);
+            }
+
+        }
+        fetchMomData()
+
+        fetchCatatanByMomId()
+    }, [id])
+
+    return (
+        <>
+            <Navbar />
+            <main className='bg-[#f0f0f0] w-full min-h-screen'>
+                <section className='container flex flex-col py-14 gap-4'>
+
+                    {momData && (
+                        <div className='bg-white px-4 py-6 rounded-xl flex flex-col gap-4 lg:flex-row justify-between items-center'>
+                            <div className='flex flex-row gap-6 '>
+                                <InitialAvatar name={momData.nama_ibu} />
+                                <div className='text-[#02467C] flex flex-col text-base md:text-2xl gap-4 items-start'>
+                                    <span>Nama Ibu: {momData.nama_ibu ?? ""}</span>
+                                    <span>Usia Kehamilan: {momData.usia_kehamilan} Minggu</span>
+                                </div>
+
+                            </div>
+                            <Link to={`/history-kunjungan/${id}`}>
+                                <button className='py-4 px-10 bg-[#02467C] text-white rounded-lg'>
+                                    History Kunjungan
+                                </button>
+                            </Link>
+                        </div>)}
+                    <div className='flex flex-col gap-8 md:gap-16 mt-14'>
+                        {momNotes && momNotes.length > 0 ? (
+                            momNotes.map((note) => (
+                                <CatatanCard key={note.id} mom={momData} note={note} />
+                            ))) : (
+                            <div className='bg-white px-4 py-6 rounded-xl flex flex-col gap-4 lg:flex-row justify-between items-center'>
+                                <p>Tidak ada catatan untuk ibu ini.</p>
+                            </div>)}
+                    </div>
+
+                </section>
+            </main>
+        </>
+    )
 }
 
 export default HistoryCatatanIbu
