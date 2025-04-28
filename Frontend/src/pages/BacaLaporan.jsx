@@ -18,7 +18,6 @@ const BacaLaporan = () => {
     const token = localStorage.getItem("token");
     const fetchLaporan = async () => {
       try {
-<<<<<<< HEAD
 
         const res = await fetch(
           `http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
@@ -29,15 +28,6 @@ const BacaLaporan = () => {
           }
         );
 
-=======
-        const res = await fetch(`http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
-          {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-          }
-        );
->>>>>>> f95f5399239b4203b72c55d9d3495d9b2ce4408d
         if (!res.ok) throw new Error("Gagal mengambil data laporan.");
         const data = await res.json();
         setLaporan(data);
@@ -47,7 +37,7 @@ const BacaLaporan = () => {
         setLoading(false);
       }
     };
-    
+
 
     if (idIbu && tanggal) {
       fetchLaporan();
@@ -131,14 +121,14 @@ const BacaLaporan = () => {
 
 // Komponen pembantu
 const Section = ({ title, children }) => (
-    <div className="space-y-1">
-      <h2 className="text-xl font-semibold mb-1 text-left">{title}:</h2>
-      <div className="border border-blue-400 rounded-lg p-4 text-left">
-        {children}
-      </div>
+  <div className="space-y-1">
+    <h2 className="text-xl font-semibold mb-1 text-left">{title}:</h2>
+    <div className="border border-blue-400 rounded-lg p-4 text-left">
+      {children}
     </div>
-  );
-  
+  </div>
+);
+
 
 const Field = ({ label, value }) => (
   <p className="flex gap-2">
