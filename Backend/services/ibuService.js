@@ -93,6 +93,21 @@ class IbuService {
         }
     }
 
+    async getIbuById(id) {
+        try {
+            const ibuDoc = await db.collection("Ibu").doc(id).get();
+
+            if (!ibuDoc.exists) {
+                throw new Error("Data ibu tidak ditemukan");
+            }
+
+            return { id: ibuDoc.id, ...ibuDoc.data() };
+        } catch (error) {
+            console.error("Gagal mengambil data ibu:", error);
+            throw new Error("Terjadi kesalahan saat mengambil data ibu");
+        }
+    }
+
 
 
 

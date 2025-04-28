@@ -192,6 +192,27 @@ class IbuController {
         }
     };
 
+    getIbuById = async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                return res.status(400).json({ message: "ID tidak boleh kosong" });
+            }
+
+            const ibu = await this.ibuService.getIbuById(id);
+
+            if (!ibu) {
+                return res.status(404).json({ message: "Data ibu tidak ditemukan" });
+            }
+
+            res.status(200).json(ibu);
+        } catch (error) {
+            console.error("Gagal mengambil data ibu:", error);
+            res.status(500).json({ message: error.message });
+        }
+    };
+
 }
 
 module.exports = { IbuController };

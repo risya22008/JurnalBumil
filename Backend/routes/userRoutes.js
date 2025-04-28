@@ -21,6 +21,7 @@ class UserRoute {
             .post("/ibu/verifikasi", this.ibuController.verifyEmail)
             .post("/login/ibu", this.ibuController.loginIbu)
             .get("/bidan/:namaBidan/ibu", authMiddleware, this.bidanController.viewAllIbu)
+            .get("/ibu/:id", authMiddleware, this.ibuController.getIbuById)
     }
 }
 
