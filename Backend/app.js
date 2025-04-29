@@ -5,6 +5,7 @@ const cors = require("cors");
 const { UserRoute } = require("./routes/userRoutes");
 const { CatatanRoutes } = require("./routes/catatanRoutes");
 const { LaporanRoutes } = require("./routes/laporanRoutes");
+const { ArtikelRoutes } = require("./routes/artikelRoutes");
 
 const port = process.env.PORT || 8080;
 const corsOptions = {
@@ -32,10 +33,12 @@ class App {
         const userRoute = new UserRoute();
         const catatanRoute = new CatatanRoutes();
         const laporanRoute = new LaporanRoutes();
+        const artikelRoute = new ArtikelRoutes();
         
         this.server.use("/api", userRoute.getRoutes());
         this.server.use("/api", catatanRoute.getRoutes());
-        this.server.use("/api", laporanRoute.getRoutes()); 
+        this.server.use("/api", laporanRoute.getRoutes());
+        this.server.use("/api", artikelRoute.getRoutes());
     }
 
     handleErrors() {
