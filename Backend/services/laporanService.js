@@ -24,7 +24,7 @@ class LaporanService {
           const ibuData = ibuDoc.data();
 
           const tanggalRegistrasi = ibuData.tanggal_registrasi.toDate(); 
-          const usiaAwal = (ibuData.usia_kehamilan || 0) / 10;
+          const usiaAwal = (ibuData.usia_kehamilan || 0);
 
           
           const sekarang = new Date();
