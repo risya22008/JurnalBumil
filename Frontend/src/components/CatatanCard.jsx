@@ -6,7 +6,7 @@ const CatatanCard = ({ mom, note }) => {
     return (
         <div className='bg-white px-6 md:px-10 lg:px-14 xl:px-20 py-6 md:py-10 rounded-xl flex flex-col gap-4 items-start text-base md:text-2xl text-[#02467C] text-start'>
             <span>Tanggal: {new Date(note.date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
-            <span>Usia Kehamilan: {mom.usia_kehamilan} bulan</span>
+            <span>Usia Kehamilan: {mom.usia_kehamilan} minggu</span>
             <span>Kondisi Kesehatan: </span>
             <p>{note.catatan_kondisi}</p>
             <span>Rating Kondisi: </span>

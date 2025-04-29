@@ -33,7 +33,10 @@ const Navbar = ({ user, onLogout }) => {
         {decodedToken?.role === "ibu" && (
           <>
             <Link to="/catatan" className="text-gray-700 hover:underline">Buat Catatan</Link>
-            <Link to="/histori/catatan" className="text-gray-700 hover:underline">Histori Catatan</Link>
+            <Link to={`/history-catatan/${decodeJwt(localStorage.getItem("token"))?.id}`} className="text-gray-700 hover:underline">
+              Histori Catatan
+            </Link>
+
             <Link to="/histori/kunjungan" className="text-gray-700 hover:underline">Histori Kunjungan</Link>
           </>
         )}
