@@ -100,36 +100,46 @@ const Dashboard = () => {
       
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-2 text-left pt-12">Apa yang Terjadi pada Ibu?</h2>
-          <p className="text-gray-700 text-justify py-6 ">{artikel.data.ibu.join(" ")}</p>
-          <img
-            src="tes-artikel-2.png"
-            alt="Ibu membaca artikel"
-            className="w-full h-auto rounded-lg mb-4"
-          />
+          <h2 className="text-2xl font-semibold mb-2 text-left">Apa yang Terjadi pada Ibu?</h2>
+          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+              {artikel.data.ibu.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+
+          
         </section>
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-2 text-left pt-12">Apa yang Terjadi pada Janin?</h2>
+          <h2 className="text-2xl font-semibold mb-2 text-left">Apa yang Terjadi pada Janin?</h2>
        
-          <p className="text-gray-700 text-justify py-6 ">{artikel.data.janin.join(". ")}</p>
+          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+            {artikel.data.janin.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+
         </section>
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-2 text-left pt-12">Apa yang harus dilakukan ibu?</h2>
- 
-          <p className="text-gray-700 text-justify py-6  mb-4">{artikel.data.perlu_dilakukan.join(" ")}</p>
-          <img
-            src="tes-artikel-3.png"
-            alt="Ibu makan sehat"
-            className="w-full h-auto rounded-lg"
-          />
+          <h2 className="text-2xl font-semibold mb-2 text-left">Apa yang harus dilakukan ibu?</h2>
+          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+            {artikel.data.perlu_dilakukan.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+         
+          
         </section>
 
-        <section className="mb-10  p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-2">Kondisi apa yang jadi tanda bahaya?</h2>
-
-          <p className="text-gray-700 text-justify py-6 ">{artikel.data.gejala_parah.join(", ")}</p>
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2 text-left">Kondisi apa yang jadi tanda bahaya?</h2>
+          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+            {artikel.data.gejala_parah.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+          
         </section>
 
         <div className="flex justify-between mt-10">
