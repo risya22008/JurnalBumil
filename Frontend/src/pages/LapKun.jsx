@@ -3,6 +3,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer, Label
 } from 'recharts';
+import "../App.css";
 
 const LapKun = () => {
   const [activeKey, setActiveKey] = useState('berat_badan');
@@ -85,8 +86,12 @@ const LapKun = () => {
   const maxValue = Math.max(...data.map(item => item[activeKey]));
 
   return (
-    <div style={{ width: '100%', height: 400 }}>
-      <ResponsiveContainer>
+    <div className="lapkun-container">
+      <div className="lapkun-title">
+        {labelMap[activeKey]}
+      </div>
+
+      <ResponsiveContainer height={380}>
         <LineChart data={data}>
           <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
           <XAxis
@@ -118,28 +123,12 @@ const LapKun = () => {
         </LineChart>
       </ResponsiveContainer>
 
-      <div style={{
-        marginTop: 12,
-        textAlign: 'center',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: '6px'
-      }}>
+      <div className="lapkun-button-container">
         {Object.entries(labelMap).map(([key, label]) => (
           <button
             key={key}
             onClick={() => setActiveKey(key)}
-            style={{
-              padding: '4px 8px',
-              fontSize: '12px',
-              backgroundColor: activeKey === key ? '#0000FF' : '#FFFFFF',
-              color: activeKey === key ? '#FFFFFF' : '#0000FF',
-              border: '1px solid #0000FF',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              outline: 'none'
-            }}
+            className={`lapkun-button ${activeKey === key ? 'active' : ''}`}
           >
             {label}
           </button>
