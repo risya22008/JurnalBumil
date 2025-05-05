@@ -82,6 +82,18 @@ class LaporanController {
         });
       }
     };
+
+    getLapkunByIdIbu = async (req, res) => {
+      const idIbu = req.params.idIbu;
+    
+      try {
+        const data = await this.laporanService.getLapkunByIdIbu(idIbu);
+    
+        res.status(200).json({ success: true, data });
+      } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+      }
+    };    
 }
 
 module.exports = { LaporanController };

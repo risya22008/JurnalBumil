@@ -70,7 +70,7 @@ class LaporanService {
             tinggi_rahim: laporanInfo.tinggi_rahim,
             id_ibu: laporanInfo.id_ibu,
             id_bidan: laporanInfo.id_bidan,
-            tanggal: formattedTanggal, 
+            tanggal: lokalTanggal, 
           });
             
 
@@ -90,6 +90,64 @@ class LaporanService {
 
         return lapkun;
     }
+
+    async getLapkunByIdIbu(idIbu) {
+      try {
+        const snapshot = await db.collection('kondisi_janin')
+          .where('id_ibu', '==', idIbu)
+          .get();
+
+
+        if (snapshot.empty) {
+          console.log("Tidak ada laporan ditemukan untuk bidan:", idIbu);
+          return [];
+        }
+
+        const ibuIds = snapshot.docs.map(doc => doc.data().id_ibu);
+
+        const ibuDocs = await db.collection('Ibu').where('__name__', '==', ibuIds[0]).get();
+
+        const ibuDataMap = ibuDocs.docs.reduce((map, doc) => {
+          map[doc.id] = doc.data();
+          return map;
+        }, {});
+
+        const results = [];
+    
+        snapshot.docs.forEach(doc => {
+          const data = doc.data();
+          const ibuData = ibuDataMap[data.id_ibu] || null;
+    
+          const tanggalRegistrasi = ibuData?.tanggal_registrasi?.toDate();
+          const usiaAwal = ibuData?.usia_kehamilan || 0;
+    
+          if (!tanggalRegistrasi) {
+            console.log(`Tanggal registrasi tidak ditemukan untuk ibu ID: ${data.id_ibu}`);
+            return;
+          }
+    
+          const tanggalKunjungan = new Date(data.tanggal);
+          const selisihHari = Math.floor((tanggalKunjungan - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
+          const mingguTambahan = Math.floor(selisihHari / 7);
+          
+          results.push({
+            tanggal_kunjungan: tanggalKunjungan.toLocaleDateString('id-ID', {
+              day: 'numeric', month: 'long', year: 'numeric'
+            }),
+            usia_kehamilan: usiaAwal + mingguTambahan,
+            hasil_skrinning: data.hasil_skrining || "-",
+          });
+        });
+    
+        return results;
+    
+      } catch (error) {
+        console.error('Error detail:', error);
+        throw new Error('Gagal mengambil laporan untuk bidan: ' + error.message);
+      }
+    }
+    
+
 
     // async getAllLapkunByIdBidan(id_bidan) {
     //     const lapkunSnapshot = await db.collection("kondisi_janin").where("id_bidan", "==", id_bidan).get();
