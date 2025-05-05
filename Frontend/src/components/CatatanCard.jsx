@@ -17,23 +17,35 @@ const CatatanCard = ({ mom, note }) => {
         11: "Sakit saat BAK",
     };
 
+    const kondisiKesehatan = note.gejala
+    .map((id) => gejalaMap[id] || `Gejala ID ${id}`)
+    .join(", ");
+    
     return (
         <div className='bg-white px-6 md:px-10 lg:px-14 xl:px-20 py-6 md:py-10 rounded-xl flex flex-col gap-4 items-start text-base md:text-2xl text-[#02467C] text-start'>
-            <span>Tanggal: {new Date(note.date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
-            <span>Usia Kehamilan: {mom.usia_kehamilan} minggu</span>
-            <span>Kondisi Kesehatan:</span>
-            <ul className="list-disc pl-5">
-                {note.gejala && note.gejala.length > 0 ? (
-                    note.gejala.map((id) => (
-                        <li key={id}>{gejalaMap[id] || `Gejala ID ${id}`}</li>
-                    ))
-                ) : (
-                    <li>Tidak ada gejala</li>
-                )}
-            </ul>
-            <span>Rating Kondisi: </span>
-            <div className='overflow-x-auto max-w-full'>
-                <div className='flex gap-4 items-center'>
+            <div className="grid grid-cols-[240px_1fr] gap-y-3 font-medium">
+                <div>Tanggal</div>
+                <div>: {new Date(note.date).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })}</div>
+
+                <div>Usia Kehamilan</div>
+                <div>: {mom.usia_kehamilan} Minggu</div>
+
+                <div>Kondisi Kesehatan</div>
+                <div>: {kondisiKesehatan || "Tidak ada gejala yang dipilih"}</div>
+
+                <div className="self-start">Rating Kondisi</div>
+                <div className="flex flex-col">
+                    <span>:</span>
+                    
+                </div>
+            
+            </div>
+            <div className='overflow-x-auto max-w-full mb-10'>
+                <div className='flex gap-2 items-center'>
                     {[...Array(5)].map((_, index) => (
                         <Star key={index} active={index < note.rating} />
                     ))}
@@ -45,8 +57,8 @@ const CatatanCard = ({ mom, note }) => {
                     Lihat Catatan
                 </button>
             </Link>
-
-
+            
+            
         </div>
     )
 }

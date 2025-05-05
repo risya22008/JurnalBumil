@@ -57,11 +57,10 @@ const HistoryCatatanIbu = () => {
                         <div className='bg-white px-4 py-6 rounded-xl flex flex-col gap-4 lg:flex-row justify-between items-center'>
                             <div className='flex flex-row gap-6 '>
                                 <InitialAvatar name={momData.nama_ibu} />
-                                <div className='text-[#02467C] flex flex-col text-base md:text-2xl gap-4 items-start'>
-                                    <span>Nama Ibu: {momData.nama_ibu ?? ""}</span>
-                                    <span>Usia Kehamilan: {momData.usia_kehamilan} Minggu</span>
+                                <div className='text-[#02467C] grid grid-cols-[200px_1fr] text-base md:text-2xl gap-4 text-start'>
+                                    <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
+                                    <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
                                 </div>
-
                             </div>
                             <Link to={`/history-kunjungan/${id}`}>
                                 <button className='py-4 px-10 bg-[#02467C] text-white rounded-lg'>
