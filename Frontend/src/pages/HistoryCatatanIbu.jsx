@@ -63,7 +63,7 @@ const HistoryCatatanIbu = () => {
                                 </div>
                             </div>
                             <Link to={`/history-kunjungan/${id}`}>
-                                <button className='py-4 px-10 bg-[#02467C] text-white rounded-lg'>
+                                <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>
                                     History Kunjungan
                                 </button>
                             </Link>

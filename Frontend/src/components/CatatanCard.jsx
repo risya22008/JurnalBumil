@@ -53,7 +53,7 @@ const CatatanCard = ({ mom, note }) => {
             </div>
 
             <Link to={`/bacaCatatan?id_ibu=${mom.id}&tanggal=${note.date}`}>
-                <button className='py-4 px-10 bg-[#02467C] text-white rounded-lg'>
+                <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>
                     Lihat Catatan
                 </button>
             </Link>
