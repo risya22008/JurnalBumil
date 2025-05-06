@@ -27,7 +27,7 @@ export default function DataIbuCard({ ibu }) {
                     <Link to={`/history-catatan/${ibu.id}`}>
                         <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>History Catatan</button>
                     </Link>
-                    <Link to={``}>
+                    <Link to={`/history-kunjungan/${ibu.id}`}>
                     <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>History Kunjungan</button>
                     </Link>
                     
