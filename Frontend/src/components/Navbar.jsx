@@ -37,7 +37,10 @@ const Navbar = ({ user, onLogout }) => {
               Histori Catatan
             </Link>
 
-            <Link to="/histori/kunjungan" className="text-gray-700 hover:underline">Histori Kunjungan</Link>
+            <Link to={`/history-kunjungan/${decodeJwt(localStorage.getItem("token"))?.id}`} className="text-gray-700 hover:underline">
+  Histori Kunjungan
+</Link>
+
           </>
         )}
 

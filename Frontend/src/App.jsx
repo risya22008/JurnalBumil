@@ -13,6 +13,8 @@ import BacaLaporan from "./pages/BacaLaporan";
 import BacaCatatan from "./pages/BacaCatatan";
 import HistoryCatatanIbu from "./pages/HistoryCatatanIbu";
 import LapKun from "./pages/LapKun";
+import HistoryKunjungan from "./pages/HistoryKunjungan";
+
 
 
 const App = () => {
@@ -31,6 +33,7 @@ const App = () => {
       <Route path="/bacaCatatan" element={<ProtectedRoute><BacaCatatan /></ProtectedRoute>} />
       <Route path="/history-catatan/:id" element={<ProtectedRoute><HistoryCatatanIbu /></ProtectedRoute>} />
       <Route path="/lapkun" element={<ProtectedRoute><LapKun /></ProtectedRoute>} />
+      <Route path="/history-kunjungan/:id" element={<ProtectedRoute><HistoryKunjungan /></ProtectedRoute>} />
     </Routes>
   );
 };
