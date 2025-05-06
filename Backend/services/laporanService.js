@@ -46,11 +46,9 @@ class LaporanService {
       };
           
 
-    async addNewLapkun(laporanInfo){
-        const now = new Date();
-        const lokalTanggal = new Date(laporanInfo.date);
-        const formattedTanggal = lokalTanggal.toLocaleDateString('en-CA');
-
+      async addNewLapkun(laporanInfo){
+        const formattedTanggal = laporanInfo.date; 
+    
         const docRef = await db.collection('kondisi_janin').add({
             berat_badan: laporanInfo.berat_badan,
             denyut_nadi_janin: laporanInfo.denyut_nadi_janin,
@@ -70,13 +68,13 @@ class LaporanService {
             tinggi_rahim: laporanInfo.tinggi_rahim,
             id_ibu: laporanInfo.id_ibu,
             id_bidan: laporanInfo.id_bidan,
-            tanggal: lokalTanggal, 
-          });
-            
-
-          console.log("Document written with ID: ", docRef.id);
-          return docRef.id;
+            tanggal: formattedTanggal, 
+        });
+    
+        console.log("Document written with ID: ", docRef.id);
+        return docRef.id;
     }
+    
 
     async getAllLapkunByIdIbu(id_ibu) {
         const lapkunSnapshot = await db.collection("kondisi_janin").where("id_ibu", "==", id_ibu).get();
