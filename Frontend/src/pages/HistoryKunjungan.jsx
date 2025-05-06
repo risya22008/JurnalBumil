@@ -72,7 +72,7 @@ const HistoryKunjungan = () => {
                                 </div>
                             </div>
                             {decodedToken && (
-                                <Link to={`/history-catatan/${decodedToken.id}`}>
+                                <Link to={`/history-catatan/${momData.id}`}>
                                     <button className='py-4 px-10 bg-[#02467C] text-white rounded-lg'>
                                         Histori Catatan
                                     </button>
