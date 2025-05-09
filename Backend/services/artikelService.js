@@ -34,6 +34,7 @@ class ArtikelService {
         const mingguTambahan = Math.floor(selisihHari / 7);
 
         const usiaKehamilanSekarang = usiaAwal + mingguTambahan;
+        console.log("Usia kehamilan sekarang:", usiaKehamilanSekarang);
         return usiaKehamilanSekarang;
     }
 }
