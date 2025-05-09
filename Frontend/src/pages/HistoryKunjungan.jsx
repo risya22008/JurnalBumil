@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import InitialAvatar from '../components/Avatar'
+import GrafikLapKun from '../components/GrafikLapkun'
 import axios from 'axios'
 import { Link, useParams } from 'react-router-dom'
 import LapKun from './LapKun'
@@ -14,6 +15,7 @@ const HistoryKunjungan = () => {
     const [kunjunganList, setKunjunganList] = useState([])
     const [decodedToken, setDecodedToken] = useState(null)
     const [laporanList, setLaporanList] = useState([])
+    const [grafikData, setGrafikData] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -36,6 +38,8 @@ const HistoryKunjungan = () => {
             }
         }
 
+        
+
         const fetchLaporanKunjungan = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
@@ -44,12 +48,8 @@ const HistoryKunjungan = () => {
                         'Content-Type': 'application/json'
                     }
                 })
-                console.log("Laporan Kunjungan:", response.data.data);  // Log data di sini
-                const parsedData = response.data.data.map(laporan => ({
-                    ...laporan,
-                    tanggal: new Date(laporan.tanggal._seconds * 1000).toLocaleDateString()
-                }));
-                setLaporanList(parsedData);
+                setLaporanList(response.data.data)
+                console.log("Kunjungan response:", response.data);
             } catch (error) {
                 console.error("Error fetching laporan kunjungan:", error)
             }
@@ -71,9 +71,37 @@ const HistoryKunjungan = () => {
             }
         }
 
+        const fetchGrafikData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = response.data.data.map((item) => ({
+                    x: item.tanggal_kunjungan,
+                    berat_badan: item.berat_badan,
+                    lila: item.lila,
+                    tinggi_rahim: item.tinggi_rahim,
+                    denyut_janin: item.denyut_janin,
+                    tekanan_darah: item.tekanan_darah,
+                    hemoglobin: item.hemoglobin,
+                    gula_darah: item.gula_darah,
+                    imunisasi_tetanus: item.imunisasi_tetanus,
+                    tablet_tambah_darah: item.tablet_tambah_darah,
+                }));
+                setGrafikData(data);
+                console.log("Grafik data response:", response.data);
+            } catch (error) {
+                console.error("Error fetching grafik data:", error);
+            }
+        }
+
         fetchMomData();
         fetchKunjungan();
         fetchLaporanKunjungan();
+        fetchGrafikData();
 
     }, [id])
 
@@ -105,33 +133,12 @@ const HistoryKunjungan = () => {
 
                     {/* Grafik Kunjungan */}
                     <div className='bg-white px-4 py-6 rounded-xl shadow'>
-                        <LapKun />
-                    
-
-                    {/* Tabel Berat Badan */}
-                    {laporanList.length > 0 && (
-                        <div className='bg-white px-4 py-6 rounded-xl shadow'>
-                            <h2 className='text-[#02467C] text-xl font-semibold mb-4'>Tabel Berat Badan</h2>
-                            <table className='w-full text-left border'>
-                                <thead>
-                                    <tr className='bg-[#02467C] text-white'>
-                                        <th className='px-4 py-2'>Tanggal</th>
-                                        <th className='px-4 py-2'>Berat Badan (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {laporanList.map((laporan, index) => (
-                                        <tr key={index} className='border-t'>
-                                            <td className='px-4 py-2'>{laporan.tanggal}</td>
-                                            <td className='px-4 py-2'>{laporan.berat_badan ?? "-"}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                    {grafikData.length > 0 ? (
+                        <GrafikLapKun data={grafikData} />
+                    ) : (
+                        <p>Data grafik tidak tersedia.</p>
                     )}
-
-</div>
+                    </div>
 
                     {/* Daftar Kunjungan */}
                     <div className='flex flex-col gap-8 md:gap-12 mt-14'>
