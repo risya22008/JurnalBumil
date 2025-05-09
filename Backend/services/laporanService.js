@@ -111,6 +111,9 @@ class LaporanService {
         }, {});
 
         const results = [];
+
+        //print usia kehamilan
+        console.log("Usia kehamilan ibu:", ibuDataMap[ibuIds[0]].usia_kehamilan);
     
         snapshot.docs.forEach(doc => {
           const data = doc.data();
@@ -127,15 +130,18 @@ class LaporanService {
           const tanggalKunjungan = new Date(data.tanggal);
           const selisihHari = Math.floor((tanggalKunjungan - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
           const mingguTambahan = Math.floor(selisihHari / 7);
+          const usiaKehamilanSekarang = usiaAwal + mingguTambahan;
           
           results.push({
             tanggal_kunjungan: tanggalKunjungan.toLocaleDateString('id-ID', {
               day: 'numeric', month: 'long', year: 'numeric'
             }),
-            usia_kehamilan: usiaAwal + mingguTambahan,
+            usiaKehamilanSekarang: usiaKehamilanSekarang,
+            //usia_kehamilan: usiaAwal + mingguTambahan,
             hasil_skrinning: data.hasil_skrining || "-",
           });
         });
+        console.log("Usia Kehamilan: ", results);
     
         return results;
     
