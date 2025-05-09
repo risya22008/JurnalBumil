@@ -13,6 +13,7 @@ const HistoryKunjungan = () => {
     const [momData, setMomData] = useState(null)
     const [kunjunganList, setKunjunganList] = useState([])
     const [decodedToken, setDecodedToken] = useState(null)
+    const [grafikData, setGrafikData] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -51,8 +52,36 @@ const HistoryKunjungan = () => {
             }
         }
 
+        const fetchGrafikData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/laporan/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = response.data.data.map((item) => ({
+                    x: item.tanggal_kunjungan,
+                    berat_badan: item.berat_badan,
+                    lila: item.lila,
+                    tinggi_rahim: item.tinggi_rahim,
+                    denyut_janin: item.denyut_janin,
+                    tekanan_darah: item.tekanan_darah,
+                    hemoglobin: item.hemoglobin,
+                    gula_darah: item.gula_darah,
+                    imunisasi_tetanus: item.imunisasi_tetanus,
+                    tablet_tambah_darah: item.tablet_tambah_darah,
+                }));
+                setGrafikData(data);
+                console.log("Grafik data response:", response.data);
+            } catch (error) {
+                console.error("Error fetching grafik data:", error);
+            }
+        };
+
         fetchMomData()
         fetchKunjungan()
+        fetchGrafikData();
     }, [id])
 
     return (
@@ -83,9 +112,13 @@ const HistoryKunjungan = () => {
 
                     {/* Grafik Kunjungan */}
                     <div className='bg-white px-4 py-6 rounded-xl shadow'>
-                        <LapKun />
+                    {grafikData.length > 0 ? (
+                        <GrafikLapKun data={grafikData} />
+                    ) : (
+                        <p>Data grafik tidak tersedia.</p>
+                    )}
                     </div>
-
+                    
                     {/* Daftar Kunjungan */}
                     <div className='flex flex-col gap-8 md:gap-12 mt-14'>
                     {kunjunganList.length > 0 ? (

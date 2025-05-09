@@ -133,7 +133,7 @@ export default function Laporan() {
         { label: "Tinggi Rahim", name: "tinggiRahim", unit: "cm", type: "number" },
         { label: "Posisi Janin", name: "posisiJanin", type: "text" },
         { label: "Denyut Nadi Janin", name: "denyutNadiJanin", unit: "b/m", type: "number" },
-        { label: "Tekanan Darah", name: "tekananDarah", unit: "mmHg", type: "text" },
+        { label: "Tekanan Darah", name: "tekananDarah", unit: "mmHg", type: "number" },
         { label: "Tablet Tambah Darah", name: "tabletTambahDarah", type: "number" },
         { label: "Tes Hemoglobin", name: "tesHemoglobin", unit: "g/dL", type: "number" },
         { label: "Imunisasi Tetanus", name: "imunisasiTetanus", type: "text" },
