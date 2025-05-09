@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/navbar'
+import Navbar from '../components/Navbar'
 import InitialAvatar from '../components/Avatar'
 import axios from 'axios'
 import { Link, useParams } from 'react-router-dom'
@@ -13,7 +13,7 @@ const HistoryKunjungan = () => {
     const [momData, setMomData] = useState(null)
     const [kunjunganList, setKunjunganList] = useState([])
     const [decodedToken, setDecodedToken] = useState(null)
-    const [grafikData, setGrafikData] = useState([]);
+    const [laporanList, setLaporanList] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -30,16 +30,35 @@ const HistoryKunjungan = () => {
                     }
                 })
                 setMomData(response.data)
-               
                 console.log("Kunjungan response:", response.data);
             } catch (error) {
                 console.error("Error fetching mom data:", error)
             }
         }
 
+        const fetchLaporanKunjungan = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                console.log("Laporan Kunjungan:", response.data.data);  // Log data di sini
+                const parsedData = response.data.data.map(laporan => ({
+                    ...laporan,
+                    tanggal: new Date(laporan.tanggal._seconds * 1000).toLocaleDateString()
+                }));
+                setLaporanList(parsedData);
+            } catch (error) {
+                console.error("Error fetching laporan kunjungan:", error)
+            }
+        }
+        
+
         const fetchKunjungan = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/laporan/bidan/${id}`, {
+                const response = await axios.get(`http://localhost:8000/api/histori/kunjungan/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
@@ -52,36 +71,10 @@ const HistoryKunjungan = () => {
             }
         }
 
-        const fetchGrafikData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8000/api/laporan/${id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const data = response.data.data.map((item) => ({
-                    x: item.tanggal_kunjungan,
-                    berat_badan: item.berat_badan,
-                    lila: item.lila,
-                    tinggi_rahim: item.tinggi_rahim,
-                    denyut_janin: item.denyut_janin,
-                    tekanan_darah: item.tekanan_darah,
-                    hemoglobin: item.hemoglobin,
-                    gula_darah: item.gula_darah,
-                    imunisasi_tetanus: item.imunisasi_tetanus,
-                    tablet_tambah_darah: item.tablet_tambah_darah,
-                }));
-                setGrafikData(data);
-                console.log("Grafik data response:", response.data);
-            } catch (error) {
-                console.error("Error fetching grafik data:", error);
-            }
-        };
+        fetchMomData();
+        fetchKunjungan();
+        fetchLaporanKunjungan();
 
-        fetchMomData()
-        fetchKunjungan()
-        fetchGrafikData();
     }, [id])
 
     return (
@@ -112,29 +105,49 @@ const HistoryKunjungan = () => {
 
                     {/* Grafik Kunjungan */}
                     <div className='bg-white px-4 py-6 rounded-xl shadow'>
-                    {grafikData.length > 0 ? (
-                        <GrafikLapKun data={grafikData} />
-                    ) : (
-                        <p>Data grafik tidak tersedia.</p>
-                    )}
-                    </div>
+                        <LapKun />
                     
-                    {/* Daftar Kunjungan */}
-                    <div className='flex flex-col gap-8 md:gap-12 mt-14'>
-                    {kunjunganList.length > 0 ? (
-                        kunjunganList.map((kunjungan, index) => (
-                            <KunjunganCard
-                                key={`${kunjungan.tanggal_kunjungan}-${index}`}
-                                data={kunjungan}
-                                momId={momData.id}
-                            />
-                        ))
-                    ) : (
-                        <div className='bg-white px-4 py-6 rounded-xl text-center'>
-                            <p>Tidak ada kunjungan yang tercatat.</p>
+
+                    {/* Tabel Berat Badan */}
+                    {laporanList.length > 0 && (
+                        <div className='bg-white px-4 py-6 rounded-xl shadow'>
+                            <h2 className='text-[#02467C] text-xl font-semibold mb-4'>Tabel Berat Badan</h2>
+                            <table className='w-full text-left border'>
+                                <thead>
+                                    <tr className='bg-[#02467C] text-white'>
+                                        <th className='px-4 py-2'>Tanggal</th>
+                                        <th className='px-4 py-2'>Berat Badan (kg)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {laporanList.map((laporan, index) => (
+                                        <tr key={index} className='border-t'>
+                                            <td className='px-4 py-2'>{laporan.tanggal}</td>
+                                            <td className='px-4 py-2'>{laporan.berat_badan ?? "-"}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     )}
 
+</div>
+
+                    {/* Daftar Kunjungan */}
+                    <div className='flex flex-col gap-8 md:gap-12 mt-14'>
+                        {kunjunganList.length > 0 ? (
+                            kunjunganList.map((kunjungan, index) => (
+                                <KunjunganCard
+                                    key={`${kunjungan.tanggal_kunjungan}-${index}`}
+                                    data={kunjungan}
+                                    momId={momData.id}
+                                />
+                            ))
+                        ) : (
+                            <div className='bg-white px-4 py-6 rounded-xl text-center'>
+                                <p>Tidak ada kunjungan yang tercatat.</p>
+                            </div>
+                        )}
                     </div>
                 </section>
             </main>

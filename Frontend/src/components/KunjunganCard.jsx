@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 const KunjunganCard = ({ data, momId }) => {
-    const { tanggal_kunjungan, usia_kehamilan, hasil_skrinning } = data;
+    const { tanggal_kunjungan, hasil_skrinning } = data;
     const navigate = useNavigate();
 
     const formatTanggalToISO = (tanggalString) => {
@@ -25,6 +25,19 @@ const KunjunganCard = ({ data, momId }) => {
         return `${tahun}-${bulanISO}-${tanggal.padStart(2, "0")}`;
     };
 
+    const calculateUsiaKehamilan = () => {
+        const tanggalFormatted = formatTanggalToISO(tanggal_kunjungan);
+        const tanggalKunjunganDate = new Date(tanggalFormatted);
+        const today = new Date();
+
+        const selisihHari = Math.floor((today - tanggalKunjunganDate) / (1000 * 60 * 60 * 24));
+        const mingguTambahan = Math.floor(selisihHari / 7);
+
+        const usiaKehamilanSaatItu = data.usiaKehamilanSekarang + mingguTambahan;
+
+        return usiaKehamilanSaatItu;
+    };
+
     const handleLaporanClick = () => {
         if (momId) {
             const formattedDate = formatTanggalToISO(tanggal_kunjungan);
@@ -39,7 +52,13 @@ const KunjunganCard = ({ data, momId }) => {
             <p className='text-[#02467C] text-base md:text-2xl font-medium'>
                 Tanggal Kunjungan: {tanggal_kunjungan}
             </p>
-            <p className='text-[#02467C] text-base md:text-2xl'>Usia Kehamilan: {usia_kehamilan} Minggu</p>
+            <p className='text-[#02467C] text-base md:text-2xl'>
+                  Usia Kehamilan Saat Kunjungan: {data.usiaKehamilanSekarang} Minggu
+            </p>
+            <p className='text-[#02467C] text-base md:text-2xl'>
+            Berat Badan: {data.berat_badan ?? "-"} kg
+            </p>
+
             <p className='text-[#02467C] text-base md:text-2xl'>Kondisi Kesehatan:</p>
             <p className='text-gray-700 text-base md:text-xl'>{hasil_skrinning}</p>
 
