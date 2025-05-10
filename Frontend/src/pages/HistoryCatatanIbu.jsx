@@ -54,23 +54,23 @@ const HistoryCatatanIbu = () => {
                 <section className='container flex flex-col py-14 gap-4'>
 
                     {momData && (
-                       <div className='bg-white px-4 py-6 rounded-xl'>
+                       <div className='bg-white px-9 py-12 rounded-xl'>
                        <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center w-full gap-6'>
                            <div className='flex items-start gap-6'>
                                <InitialAvatar name={momData.nama_ibu} />
-                               <div className='text-[#02467C] grid grid-cols-[150px_1fr] text-base md:text-2xl gap-2 text-start'>
+                               <div className='text-[#02467C] grid grid-cols-[max-content_1fr] gap-x-3 gap-y-3 text-base md:text-2xl text-start'>
                                    <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
                                    <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
                                </div>
                            </div>
                    
                            <Link to={`/history-kunjungan/${id}`}>
-                               <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl self-start lg:self-center'>
+                               <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl self-start lg:self-center hover:bg-[#0368B5] hover:shadow-lg'>
                                    History Kunjungan
                                </button>
                            </Link>
                        </div>
-                   </div>
+                       </div>
                    )}
                     <div className='flex flex-col gap-8 md:gap-16 mt-14'>
                         {momNotes && momNotes.length > 0 ? (

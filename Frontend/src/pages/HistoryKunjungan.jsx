@@ -74,11 +74,11 @@ const HistoryKunjungan = () => {
         }
 
         const fetchGrafikData = async () => {
-    try {
-        const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json',
+            try {
+                const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
             },
         });
 
@@ -120,18 +120,18 @@ const HistoryKunjungan = () => {
 
                     {/* Informasi Ibu dan Tombol */}
                     {momData && (
-                        <div className='bg-white px-4 py-6 rounded-xl'>
-                       <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center w-full gap-6'>
+                        <div className='bg-white px-9 py-12 rounded-xl'>
+                        <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center w-full gap-6'>
                            <div className='flex items-start gap-6'>
                                <InitialAvatar name={momData.nama_ibu} />
-                               <div className='text-[#02467C] grid grid-cols-[150px_1fr] text-base md:text-2xl gap-2 text-start'>
+                               <div className='text-[#02467C] grid grid-cols-[max-content_1fr] gap-x-3 gap-y-3 text-base md:text-2xl  text-start'>
                                    <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
                                    <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
                                </div>
                            </div>
                    
                            <Link to={`/history-catatan/${id}`}>
-                               <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl self-start lg:self-center'>
+                               <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl self-start lg:self-center hover:bg-[#0368B5] hover:shadow-lg'>
                                    History Catatan
                                </button>
                            </Link>
@@ -140,7 +140,7 @@ const HistoryKunjungan = () => {
                     )}
 
                     {/* Grafik Kunjungan */}
-               x     <div className='bg-white px-4 py-20 rounded-xl shadow w-full overflow-x-auto'>
+                    <div className='bg-white px-4 py-20 rounded-xl shadow w-full overflow-x-auto md:gap-12 mt-14'>
                     {grafikData.length > 0 ? (
                         <GrafikLapKun data={grafikData} />
                     ) : (

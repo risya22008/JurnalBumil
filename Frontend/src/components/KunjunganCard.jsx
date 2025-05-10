@@ -48,23 +48,18 @@ const KunjunganCard = ({ data, momId }) => {
     };
 
     return (
-        <div className='bg-white px-6 py-6 rounded-xl shadow-md flex flex-col gap-4 text-left'>
-            <p className='text-[#02467C] text-base md:text-2xl font-medium'>
-                Tanggal Kunjungan: {tanggal_kunjungan}
-            </p>
-            <p className='text-[#02467C] text-base md:text-2xl'>
-                  Usia Kehamilan Saat Kunjungan: {data.usiaKehamilanSekarang} Minggu
-            </p>
-            <p className='text-[#02467C] text-base md:text-2xl'>
-            Berat Badan: {data.berat_badan ?? "-"} kg
-            </p>
-
-            <p className='text-[#02467C] text-base md:text-2xl'>Kondisi Kesehatan:</p>
+        <div className='bg-white px-9 py-9 rounded-xl shadow-md flex flex-col gap-4 text-left'>
+            <div className='text-[#02467C] grid grid-cols-[max-content_1fr] gap-x-3 gap-y-3 text-base md:text-2xl text-start'>
+                <div>Tanggal Kunjungan</div>       <div>: {tanggal_kunjungan}</div>
+                <div>Usia Kehamilan Saat Kunjungan</div> <div>: {data.usiaKehamilanSekarang} Minggu</div>
+                <div>Berat Badan</div> <div>: {data.berat_badan ?? "-"} kg</div>
+                <div>Kondisi Kesehatan</div> <div>: </div>
+            </div>
             <p className='text-gray-700 text-base md:text-xl'>{hasil_skrinning}</p>
 
             <button 
                 onClick={handleLaporanClick}
-                className='mt-20 py-2 px-4 w-fit bg-[#02467C] text-white rounded-md '
+                className='mt-20 md:text-lg lg:text-xl py-3 px-6 w-fit bg-[#02467C] text-white rounded-2xl hover:bg-[#0368B5] hover:shadow-lg'
             >
                 Laporan Kunjungan
             </button>

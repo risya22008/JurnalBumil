@@ -12,13 +12,11 @@ const BacaLaporan = () => {
   const [laporan, setLaporan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchLaporan = async () => {
       try {
-
         const res = await fetch(
           `http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
           {
@@ -37,7 +35,6 @@ const BacaLaporan = () => {
         setLoading(false);
       }
     };
-
 
     if (idIbu && tanggal) {
       fetchLaporan();
@@ -58,14 +55,17 @@ const BacaLaporan = () => {
   return (
     <>
       <Navbar />
-      <main className="bg-gray-100 min-h-screen p-6">
+      <main className="bg-gray-100 min-h-screen p-6 overflow-x-auto">
         <div className="max-w-4xl mx-auto bg-white rounded-lg p-6 shadow space-y-6">
-          <h1 className="text-2xl font-bold text-center">Catatan Laporan Kunjungan</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-center">Catatan Laporan Kunjungan</h1>
           <p className="text-center text-blue-600">{laporan.data.tanggal}</p>
 
-          <div className="text-left space-y-1">
-            <p className="text-blue-800 font-semibold">Nama Ibu: <span className="font-normal text-black">{laporan.data.nama_ibu}</span></p>
-            <p className="text-blue-800 font-semibold">Usia Kehamilan: <span className="font-normal text-black">{laporan.data.usia_kehamilan} Minggu</span></p>
+          {/* Info Ibu */}
+          <div className="text-left grid grid-cols-[max-content_1fr] gap-x-2 gap-y-2 text-sm md:text-base">
+            <div className="text-blue-800 font-semibold">Nama Ibu</div>
+            <div>: <span className="font-normal text-black">{laporan.data.nama_ibu}</span></div>
+            <div className="text-blue-800 font-semibold">Usia Kehamilan</div>
+            <div>: <span className="font-normal text-black">{laporan.data.usia_kehamilan} Minggu</span></div>
           </div>
 
           {/* Fisik Ibu */}
@@ -101,7 +101,7 @@ const BacaLaporan = () => {
 
           {/* Skrining Bidan */}
           <Section title="Skrining Bidan">
-            <p>{laporan.data.hasil_skrining}</p>
+            <p className="text-sm md:text-base">{laporan.data.hasil_skrining}</p>
           </Section>
 
           {/* Tombol Kembali */}
@@ -121,19 +121,21 @@ const BacaLaporan = () => {
 
 // Komponen pembantu
 const Section = ({ title, children }) => (
-  <div className="space-y-1">
-    <h2 className="text-xl font-semibold mb-1 text-left">{title}:</h2>
-    <div className="border border-blue-400 rounded-lg p-4 text-left">
+  <div className="space-y-2">
+    <h2 className="text-lg md:text-xl font-semibold mb-1 text-left">{title}:</h2>
+    <div className="border border-blue-400 rounded-lg p-4 text-left space-y-1">
       {children}
     </div>
   </div>
 );
 
-
+// Komponen Field (rapih pakai grid)
 const Field = ({ label, value }) => (
-  <p className="flex gap-2">
-    <span>{label}:</span> <span>{value}</span>
-  </p>
+  <div className="flex text-sm md:text-base items-center">
+    <div className="font-medium text-blue-800 min-w-[120px] md:min-w-[240px] truncate">{label}</div>
+    <div className="mx-1">:</div>
+    <div>{value}</div>
+  </div>
 );
 
 export default BacaLaporan;

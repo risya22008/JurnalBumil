@@ -25,10 +25,10 @@ export default function DataIbuCard({ ibu }) {
             
             <div className='flex gap-9 flex-col md:flex-row'>
                     <Link to={`/history-catatan/${ibu.id}`}>
-                        <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>History Catatan</button>
+                        <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl hover:bg-[#0368B5] hover:shadow-lg'>History Catatan</button>
                     </Link>
                     <Link to={`/history-kunjungan/${ibu.id}`}>
-                    <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>History Kunjungan</button>
+                    <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl hover:bg-[#0368B5] hover:shadow-lg'>History Kunjungan</button>
                     </Link>
                     
             </div>

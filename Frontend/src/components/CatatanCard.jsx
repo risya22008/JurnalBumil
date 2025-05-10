@@ -22,11 +22,11 @@ const CatatanCard = ({ mom, note }) => {
     .join(", ");
     
     return (
-        <div className='bg-white px-6 md:px-10 lg:px-14 xl:px-20 py-6 md:py-10 rounded-xl flex flex-col gap-4 items-start text-base md:text-2xl text-[#02467C] text-start'>
-            <div className="grid grid-cols-[240px_1fr] gap-y-3 font-medium">
+        <div className='bg-white px-9 md:px-10 lg:px-14 xl:px-20 py-6 md:py-10 rounded-xl flex flex-col gap-4 items-start text-base md:text-2xl text-[#02467C] text-start'>
+            <div className="grid grid-cols-[max-content_1fr] gap-x-3 gap-y-3 font-medium">
                 <div>Tanggal</div>
                 <div>: {new Date(note.date).toLocaleDateString('id-ID', {
-                    day: '2-digit',
+                    day: '2-digit', 
                     month: 'long',
                     year: 'numeric'
                 })}</div>
@@ -45,7 +45,7 @@ const CatatanCard = ({ mom, note }) => {
             
             </div>
             <div className='overflow-x-auto max-w-full mb-10'>
-                <div className='flex gap-2 items-center'>
+                <div className='flex gap-2 items-center whitespace-nowrap'>
                     {[...Array(5)].map((_, index) => (
                         <Star key={index} active={index < note.rating} />
                     ))}
@@ -53,7 +53,7 @@ const CatatanCard = ({ mom, note }) => {
             </div>
 
             <Link to={`/bacaCatatan?id_ibu=${mom.id}&tanggal=${note.date}`}>
-                <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>
+                <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-3 px-6 rounded-2xl w-full sm:w-fit hover:bg-[#0368B5] hover:shadow-lg'>
                     Lihat Catatan
                 </button>
             </Link>

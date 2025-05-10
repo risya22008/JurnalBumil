@@ -32,7 +32,7 @@ const GrafikLapKun = ({ data, labelMap = defaultLabelMap, satuanMap = defaultSat
 
 
     return (
-        <div className="lapkun-container">
+        <div className="lapkun-container px-10">
             <div className="lapkun-title font-semibold text-lg mb-4">
                 {labelMap[activeKey]}
             </div>
@@ -65,6 +65,9 @@ const GrafikLapKun = ({ data, labelMap = defaultLabelMap, satuanMap = defaultSat
                         strokeWidth={3}
                         dot={{ r: 6, stroke: '#0000FF', strokeWidth: 2, fill: '#FFFFFF' }}
                         activeDot={{ r: 8 }}
+                        isAnimationActive={true}
+                        animationDuration={1000}
+                        animationEasing="ease-in-out"
                     />
                 </LineChart>
             </ResponsiveContainer>
@@ -74,7 +77,7 @@ const GrafikLapKun = ({ data, labelMap = defaultLabelMap, satuanMap = defaultSat
                     <button
                         key={key}
                         onClick={() => setActiveKey(key)}
-                        className={`px-3 py-2 rounded-lg text-sm ${activeKey === key ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-800'}`}
+                        className={`px-3 py-2 rounded-lg text-sm ${activeKey === key ? 'bg-blue-700 text-white hover:bg-blue-800 shadow-md' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 hover:shadow-md'}`}
                     >
                         {label}
                     </button>
