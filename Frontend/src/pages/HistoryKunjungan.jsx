@@ -23,6 +23,8 @@ const HistoryKunjungan = () => {
             setDecodedToken(decodeJwt(token)); // decode token once and store
         }
 
+        
+
         const fetchMomData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/api/ibu/${id}`, {
@@ -72,31 +74,36 @@ const HistoryKunjungan = () => {
         }
 
         const fetchGrafikData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const data = response.data.data.map((item) => ({
-                    x: item.tanggal_kunjungan,
-                    berat_badan: item.berat_badan,
-                    lila: item.lila,
-                    tinggi_rahim: item.tinggi_rahim,
-                    denyut_janin: item.denyut_janin,
-                    tekanan_darah: item.tekanan_darah,
-                    hemoglobin: item.hemoglobin,
-                    gula_darah: item.gula_darah,
-                    imunisasi_tetanus: item.imunisasi_tetanus,
-                    tablet_tambah_darah: item.tablet_tambah_darah,
-                }));
-                setGrafikData(data);
-                console.log("Grafik data response:", response.data);
-            } catch (error) {
-                console.error("Error fetching grafik data:", error);
-            }
+    try {
+        const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        
+        if (Array.isArray(response.data)) {
+            const data = response.data.map((item) => ({
+                x: item.tanggal, 
+                berat_badan: item.berat_badan,
+                lila: item.lingkar_lengan,  
+                tinggi_rahim: item.tinggi_rahim,
+                denyut_janin: item.denyut_nadi_janin,  
+                tekanan_darah: item.tekanan_darah,
+                hemoglobin: item.tes_hemoglobin,  
+                gula_darah: item.gula_darah,
+                imunisasi_tetanus: item.imunisasi_tetanus,
+                tablet_tambah_darah: item.tablet_tambah_darah,
+            }));
+            setGrafikData(data);
+        } else {
+            console.error("Grafik data tidak valid:", response.data);
         }
+    } catch (error) {
+        console.error("Error fetching grafik data:", error);
+    }
+}
 
         fetchMomData();
         fetchKunjungan();
@@ -132,7 +139,7 @@ const HistoryKunjungan = () => {
                     )}
 
                     {/* Grafik Kunjungan */}
-                    <div className='bg-white px-4 py-20 rounded-xl shadow w-full overflow-x-auto'>
+               x     <div className='bg-white px-4 py-20 rounded-xl shadow w-full overflow-x-auto'>
                     {grafikData.length > 0 ? (
                         <GrafikLapKun data={grafikData} />
                     ) : (
