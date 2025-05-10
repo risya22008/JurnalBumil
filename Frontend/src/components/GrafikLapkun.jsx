@@ -69,7 +69,7 @@ const GrafikLapKun = ({ data, labelMap = defaultLabelMap, satuanMap = defaultSat
                 </LineChart>
             </ResponsiveContainer>
 
-            <div className="lapkun-button-container flex flex-wrap gap-2 mt-4">
+            <div className="lapkun-button-container flex gap-2 mt-4 overflow-x-auto whitespace-nowrap">
                 {Object.entries(labelMap).map(([key, label]) => (
                     <button
                         key={key}

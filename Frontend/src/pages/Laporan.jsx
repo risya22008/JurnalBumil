@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/navbar'
+import Navbar from '../components/Navbar'
 import { decodeJwt } from '../utils/decode'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';

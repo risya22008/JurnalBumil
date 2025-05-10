@@ -132,7 +132,7 @@ const HistoryKunjungan = () => {
                     )}
 
                     {/* Grafik Kunjungan */}
-                    <div className='bg-white px-4 py-6 rounded-xl shadow'>
+                    <div className='bg-white px-4 py-20 rounded-xl shadow w-full overflow-x-auto'>
                     {grafikData.length > 0 ? (
                         <GrafikLapKun data={grafikData} />
                     ) : (
