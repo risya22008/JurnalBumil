@@ -20,6 +20,26 @@ const CatatanCard = ({ mom, note }) => {
     const kondisiKesehatan = note.gejala
     .map((id) => gejalaMap[id] || `Gejala ID ${id}`)
     .join(", ");
+
+        // Hitung usia kehamilan berdasarkan tanggal catatan (note.date)
+    const hitungUsiaKehamilanPadaTanggal = (tanggalCatatan, tanggalRegistrasi, usiaAwal) => {
+        if (!tanggalRegistrasi || usiaAwal == null) return "-";
+        
+        const tglCatatan = new Date(tanggalCatatan);
+        const tglRegistrasi = new Date(tanggalRegistrasi._seconds * 1000); // jika pakai Firebase Timestamp
+        
+        const selisihHari = Math.floor((tglCatatan - tglRegistrasi) / (1000 * 60 * 60 * 24));
+        const mingguTambahan = Math.floor(selisihHari / 7);
+
+        return usiaAwal + mingguTambahan;
+    };
+
+    const usiaKehamilanSaatItu = hitungUsiaKehamilanPadaTanggal(
+        note.date,
+        mom.tanggal_registrasi,
+        mom.usia_kehamilan
+    );
+
     
     return (
         <div className='bg-white px-9 md:px-10 lg:px-14 xl:px-20 py-6 md:py-10 rounded-xl flex flex-col gap-4 items-start text-base md:text-2xl text-[#02467C] text-start'>
@@ -32,7 +52,7 @@ const CatatanCard = ({ mom, note }) => {
                 })}</div>
 
                 <div>Usia Kehamilan</div>
-                <div>: {mom.usia_kehamilan} Minggu</div>
+                <div>: {usiaKehamilanSaatItu} Minggu</div>
 
                 <div>Kondisi Kesehatan</div>
                 <div>: {kondisiKesehatan || "Tidak ada gejala yang dipilih"}</div>

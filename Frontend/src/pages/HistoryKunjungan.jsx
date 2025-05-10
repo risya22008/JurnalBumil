@@ -17,6 +17,18 @@ const HistoryKunjungan = () => {
     const [laporanList, setLaporanList] = useState([])
     const [grafikData, setGrafikData] = useState([]);
 
+    const getUsiaKehamilanSekarang = (momData) => {
+            if (!momData?.tanggal_registrasi?._seconds || momData?.usia_kehamilan == null) return null;
+
+            const tanggalRegistrasi = new Date(momData.tanggal_registrasi._seconds * 1000);
+            const sekarang = new Date();
+
+            const selisihHari = Math.floor((sekarang - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
+            const mingguTambahan = Math.floor(selisihHari / 7);
+
+            return momData.usia_kehamilan + mingguTambahan;
+        };
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -56,6 +68,7 @@ const HistoryKunjungan = () => {
                 console.error("Error fetching laporan kunjungan:", error)
             }
         }
+
         
 
         const fetchKunjungan = async () => {
@@ -66,7 +79,10 @@ const HistoryKunjungan = () => {
                         'Content-Type': 'application/json'
                     }
                 })
-                setKunjunganList(response.data.data)
+                setKunjunganList(
+                        response.data.data.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
+                        );
+
                 console.log("Kunjungan response:", response.data);
             } catch (error) {
                 console.error("Error fetching kunjungan data:", error)
@@ -126,7 +142,7 @@ const HistoryKunjungan = () => {
                                <InitialAvatar name={momData.nama_ibu} />
                                <div className='text-[#02467C] grid grid-cols-[max-content_1fr] gap-x-3 gap-y-3 text-base md:text-2xl  text-start'>
                                    <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
-                                   <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
+                                   <div>Usia Kehamilan</div> <div>: {getUsiaKehamilanSekarang(momData)} Minggu</div>
                                </div>
                            </div>
                    
@@ -141,8 +157,10 @@ const HistoryKunjungan = () => {
 
                     {/* Grafik Kunjungan */}
                     <div className='bg-white px-4 py-20 rounded-xl shadow w-full overflow-x-auto md:gap-12 mt-14'>
+=======
+                    
                     {grafikData.length > 0 ? (
-                        <GrafikLapKun data={grafikData} />
+                        <GrafikLapKun data={[...grafikData].sort((a, b) => new Date(a.x) - new Date(b.x))} />
                     ) : (
                         <p>Data grafik tidak tersedia.</p>
                     )}
@@ -150,20 +168,23 @@ const HistoryKunjungan = () => {
 
                     {/* Daftar Kunjungan */}
                     <div className='flex flex-col gap-8 md:gap-12 mt-14'>
-                        {kunjunganList.length > 0 ? (
-                            kunjunganList.map((kunjungan, index) => (
-                                <KunjunganCard
-                                    key={`${kunjungan.tanggal_kunjungan}-${index}`}
-                                    data={kunjungan}
-                                    momId={momData.id}
-                                />
-                            ))
-                        ) : (
-                            <div className='bg-white px-4 py-6 rounded-xl text-center'>
-                                <p>Tidak ada kunjungan yang tercatat.</p>
-                            </div>
-                        )}
+                    {kunjunganList.length > 0 ? (
+                        [...kunjunganList]
+                        .sort((b, a) => new Date(a.tanggal) - new Date(b.tanggal))
+                        .map((kunjungan, index) => (
+                            <KunjunganCard
+                            key={`${kunjungan.tanggal_kunjungan}-${index}`}
+                            data={kunjungan}
+                            momId={momData.id}
+                            />
+                        ))
+                    ) : (
+                        <div className='bg-white px-4 py-6 rounded-xl text-center'>
+                        <p>Tidak ada kunjungan yang tercatat.</p>
+                        </div>
+                    )}
                     </div>
+
                 </section>
             </main>
         </>

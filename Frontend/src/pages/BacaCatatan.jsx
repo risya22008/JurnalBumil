@@ -98,12 +98,37 @@ const Catatan = () => {
         <div className="flex flex-col min-h-screen">
         <Navbar />
       <div className="p-5 min-h-screen bg-white">
-        <h1 className="text-3xl font-semibold text-center mb-10 font-poppins">
-          Catatan Harian
-        </h1>
+
+
+        <div className="w-full p-3 rounded-md">
+  <h2 className="text-2xl font-bold text-center">Catatan harian</h2>
+
+
+</div>
+
+
+
+
   
         <form className="mx-auto max-w-[1022px] px-4">
           <div className="mb-6">
+            <div className="text-left space-y-1 text-lg">
+    <p className="text-blue-800 font-semibold">
+      Tanggal: <span className="font-normal text-black">
+    {new Date(catatan.date).toLocaleDateString('id-ID', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })} </span>
+  </p>
+    <p className="text-blue-800 font-semibold">
+  Nama Ibu: <span className="font-normal text-black">{catatan.nama_ibu}</span>
+</p>
+<p className="text-blue-800 font-semibold mb-4">
+  Usia Kehamilan: <span className="font-normal text-black">{catatan.usia_kehamilan} Minggu</span>
+</p>
+<br />
+  </div>
             <p className="text-lg font-semibold text-left mb-4 font-poppins">
               Adakah gejala yang dialami?
             </p>
@@ -160,7 +185,7 @@ const Catatan = () => {
           {/* Skor Harian - Rating Bintang */}
           <div className="mt-8 mb-4 text-left">
             <p className="text-lg font-semibold mb-2 font-poppins">
-              Seberapa puas bunda hari ini?
+              Seberapa baik kondisi bunda hari ini?
             </p>
             <div className="flex justify-start gap-2 text-2xl">
                 {Array.from({ length: catatan.rating }).map((num, index) => (
@@ -180,9 +205,12 @@ const Catatan = () => {
                     </svg>
                   </button>
                 ))}
+
+
               
             </div>
           </div>
+
   
          
         </form>

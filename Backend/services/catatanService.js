@@ -66,7 +66,7 @@ class CatatanService {
           const tanggalRegistrasi = ibuData.tanggal_registrasi.toDate();
           const usiaAwal = ibuData.usia_kehamilan || 0;
       
-          const sekarang = new Date();
+          const sekarang = new Date(tanggal);
           const selisihHari = Math.floor((sekarang - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
           const mingguTambahan = Math.floor(selisihHari / 7);
           const usiaKehamilanSekarang = usiaAwal + mingguTambahan;

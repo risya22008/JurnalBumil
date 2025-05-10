@@ -68,6 +68,14 @@ class IbuService {
                     const ibuData = ibuDoc.data();
                     const id_ibu = ibuDoc.id;
 
+                    // Hitung usia kehamilan saat ini
+                    const tanggalRegistrasi = ibuData.tanggal_registrasi.toDate();
+                    const usiaAwal = ibuData.usia_kehamilan || 0;
+                    const sekarang = new Date();
+                    const selisihHari = Math.floor((sekarang - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
+                    const mingguTambahan = Math.floor(selisihHari / 7);
+                    const usiaKehamilanSekarang = usiaAwal + mingguTambahan;
+
                     const catatanSnapshot = await db
                         .collection("Catatan")
                         .where("id_ibu", "==", id_ibu)
@@ -81,6 +89,7 @@ class IbuService {
                     return {
                         id: id_ibu,
                         ...ibuData,
+                        usia_kehamilan: usiaKehamilanSekarang, // ganti usia kehamilan dengan hasil hitung
                         catatan: catatanList
                     };
                 })
@@ -92,6 +101,7 @@ class IbuService {
             throw new Error("Terjadi kesalahan saat mengambil data");
         }
     }
+
 
     async getIbuById(id) {
         try {

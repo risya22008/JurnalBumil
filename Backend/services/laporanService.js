@@ -1,49 +1,52 @@
 const { db } = require("../firebaseClient");
 
 class LaporanService {
-    getLaporanByIbuAndTanggal = async (idIbu, tanggal) => {
-        try {
-          const snapshot = await db.collection('kondisi_janin')
-            .where('id_ibu', '==', idIbu)
-            .where('tanggal', '==', tanggal)
-            .limit(1)
-            .get();
-      
-          if (snapshot.empty) {
-            return null;
-          }
-      
-          const laporanData = snapshot.docs[0].data();
+getLaporanByIbuAndTanggal = async (idIbu, tanggal) => {
+  try {
+    const snapshot = await db.collection('kondisi_janin')
+      .where('id_ibu', '==', idIbu)
+      .where('tanggal', '==', tanggal)
+      .limit(1)
+      .get();
 
-          const ibuDoc = await db.collection("Ibu").doc(idIbu).get();
-      
-          if (!ibuDoc.exists) {
-            throw new Error("Data ibu tidak ditemukan");
-          }
-      
-          const ibuData = ibuDoc.data();
+    if (snapshot.empty) {
+      return null;
+    }
 
-          const tanggalRegistrasi = ibuData.tanggal_registrasi.toDate(); 
-          const usiaAwal = (ibuData.usia_kehamilan || 0);
+    const laporanData = snapshot.docs[0].data();
 
-          
-          const sekarang = new Date();
-          const selisihHari = Math.floor((sekarang - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
-          const mingguTambahan = Math.floor(selisihHari / 7);
-          
-          const usiaKehamilanSekarang = usiaAwal + mingguTambahan;
-          
+    const ibuDoc = await db.collection("Ibu").doc(idIbu).get();
 
-          return {
-            ...laporanData,
-            nama_ibu: ibuData.nama_ibu,
-            usia_kehamilan: usiaKehamilanSekarang,
-          };
-      
-        } catch (error) {
-          throw new Error('Gagal mengambil data laporan: ' + error.message);
-        }
-      };
+    if (!ibuDoc.exists) {
+      throw new Error("Data ibu tidak ditemukan");
+    }
+
+    const ibuData = ibuDoc.data();
+
+    const tanggalRegistrasi = ibuData.tanggal_registrasi.toDate(); 
+    const usiaAwal = ibuData.usia_kehamilan || 0;
+
+    const tanggalKunjungan = new Date(laporanData.tanggal);
+
+    const selisihHari = Math.floor((tanggalKunjungan - tanggalRegistrasi) / (1000 * 60 * 60 * 24));
+    const mingguTambahan = Math.floor(selisihHari / 7);
+    const usiaKehamilanSaatLaporan = usiaAwal + mingguTambahan;
+
+    return {
+      ...laporanData,
+      nama_ibu: ibuData.nama_ibu,
+      usia_kehamilan: usiaKehamilanSaatLaporan,
+      hiv: laporanData.hiv === true || laporanData.hiv === "true",
+      sifilis: laporanData.sifilis === true || laporanData.sifilis === "true",
+      tes_hepatitis: laporanData.tes_hepatitis === true || laporanData.tes_hepatitis === "true",
+    };
+
+  } catch (error) {
+    throw new Error('Gagal mengambil data laporan: ' + error.message);
+  }
+};
+
+
           
 
       async addNewLapkun(laporanInfo){
@@ -136,6 +139,7 @@ class LaporanService {
             tanggal_kunjungan: tanggalKunjungan.toLocaleDateString('id-ID', {
               day: 'numeric', month: 'long', year: 'numeric'
             }),
+            tanggal: tanggalKunjungan,
             usiaKehamilanSekarang: usiaKehamilanSekarang,
             //usia_kehamilan: usiaAwal + mingguTambahan,
             hasil_skrinning: data.hasil_skrining || "-",

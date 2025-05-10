@@ -12,6 +12,18 @@ const HistoryCatatanIbu = () => {
 
     const [momData, setMomData] = useState(null)
     const [momNotes, setMomNotes] = useState(null)
+
+    const hitungUsiaKehamilan = (tanggalRegistrasi, usiaAwal) => {
+        if (!tanggalRegistrasi || usiaAwal == null) return "-";
+
+        const tanggal = new Date(tanggalRegistrasi._seconds * 1000); // jika Firebase Timestamp
+        const sekarang = new Date();
+        const selisihHari = Math.floor((sekarang - tanggal) / (1000 * 60 * 60 * 24));
+        const mingguTambahan = Math.floor(selisihHari / 7);
+
+        return usiaAwal + mingguTambahan;
+    };
+
     useEffect(() => {
         const fetchMomData = async () => {
             try {
@@ -60,7 +72,7 @@ const HistoryCatatanIbu = () => {
                                <InitialAvatar name={momData.nama_ibu} />
                                <div className='text-[#02467C] grid grid-cols-[max-content_1fr] gap-x-3 gap-y-3 text-base md:text-2xl text-start'>
                                    <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
-                                   <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
+                                   <div>Usia Kehamilan</div> <div>: {hitungUsiaKehamilan(momData.tanggal_registrasi, momData.usia_kehamilan)} Minggu</div>
                                </div>
                            </div>
                    
@@ -74,12 +86,16 @@ const HistoryCatatanIbu = () => {
                    )}
                     <div className='flex flex-col gap-8 md:gap-16 mt-14'>
                         {momNotes && momNotes.length > 0 ? (
-                            momNotes.map((note) => (
-                                <CatatanCard key={note.id} mom={momData} note={note} />
-                            ))) : (
-                            <div className='bg-white px-4 py-6 rounded-xl flex flex-col gap-4 lg:flex-row justify-between items-center'>
-                                <p>Tidak ada catatan untuk ibu ini.</p>
-                            </div>)}
+  [...momNotes]
+    .sort((a, b) => new Date(b.date) - new Date(a.date)) // urutkan dari terbaru ke terlama
+    .map((note) => (
+      <CatatanCard key={note.id} mom={momData} note={note} />
+    ))
+) : (
+  <div className='bg-white px-4 py-6 rounded-xl flex flex-col gap-4 lg:flex-row justify-between items-center'>
+    <p>Tidak ada catatan untuk ibu ini.</p>
+  </div>
+)}
                     </div>
 
                 </section>
