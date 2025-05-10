@@ -4,6 +4,7 @@ import FormLayout from "../components/FormLayout";
 import FormInput from "../components/FormInput";
 import PasswordInput from "../components/PasswordInput";
 import SubmitButton from "../components/SubmitButton";
+import SwitchAuthLink from "../components/SwitchAuthLink";
 import { useNavigate } from "react-router-dom";
 
 const RegisterBidan = () => {
@@ -117,10 +118,18 @@ const RegisterBidan = () => {
       {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
       {success && <p className="text-green-500 text-sm mt-3">{success}</p>}
 
+      <SwitchAuthLink
+          question="Daftar sebagai ibu?"
+          linkText="Klik di sini"
+          to="/register/ibu"
+      />
+
       <p className="text-sm text-center mt-6">
-        Kembali ke{" "}
-        <a href="/register/ibu" className="text-blue-800 font-medium">Halaman Ibu</a>
+        Sudah memiliki akun?{" "}
+        <a href="/login" className="text-blue-800 font-medium">Masuk</a>
       </p>
+  
+      
     </FormLayout>
   );
 };

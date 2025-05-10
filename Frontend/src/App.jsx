@@ -19,7 +19,7 @@ import HistoryKunjungan from "./pages/HistoryKunjungan";
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/register/ibu" replace />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/register/ibu" element={<RegisterIbu />} />
       <Route path="/register/bidan" element={<RegisterBidan />} />
       <Route path="/login" element={<Login />} />

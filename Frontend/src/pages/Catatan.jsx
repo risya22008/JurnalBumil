@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "../components/Header";
 import { decodeJwt } from "../utils/decode";
 import Footer from "../components/Footer";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import "../App.css";
 import RequireAuth from "../components/RequireAuth";
 import { useNavigate } from 'react-router-dom';
@@ -126,42 +126,25 @@ const CatatanHarian = () => {
             Adakah gejala yang dialami?
           </p>
 
-          <table className="w-full text-left table-auto">
-            <tbody>
-              {symptoms.map((row, rowIndex) => (
-                <tr key={rowIndex} className="h-10">
-                  {row.map((symptom, colIndex) => {
-                    const index = rowIndex * 3 + colIndex;
-                    const id = symptomIds[index];
-                    return (
-                      <td
-                        key={colIndex}
-                        className="align-middle px-4 py-1 text-left"
-                        style={{
-                          width: "33%",
-                          height: "40px",
-                          border: "1px solid transparent",
-                        }}
-                      >
-                        {symptom && (
-                          <label className="inline-flex items-center space-x-2">
-                            <input
-                              type="checkbox"
-                              className="custom-checkbox"
-                              name="kondisi"
-                              value={id.toString()}
-                              onChange={handleCheckboxChange}
-                            />
-                            <span>{symptom}</span>
-                          </label>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className=" text-left grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+  {symptoms.flat().map((symptom, index) => {
+    const id = symptomIds[index];
+    if (!symptom) return null;
+    return (
+      <label key={id} className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          name="kondisi"
+          value={id.toString()}
+          onChange={handleCheckboxChange}
+        />
+        <span className="font-poppins break-words">{symptom}</span>
+      </label>
+    );
+  })}
+</div>
+
         </div>
 
         {/* Makanan */}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import InitialAvatar from '../components/Avatar'
 import SubmitButton from '../components/SubmitButton'
-import Navbar from '../components/navbar'
+import Navbar from '../components/Navbar'
 import axios from 'axios'
 import { decodeJwt } from '../utils/decode'
 import DataIbuCard from '../components/DataIbuCard'

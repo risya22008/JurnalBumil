@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import { decodeJwt } from "../utils/decode"; // pastikan path-nya sesuai
 
 const Dashboard = () => {

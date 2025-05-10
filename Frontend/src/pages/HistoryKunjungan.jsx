@@ -120,22 +120,23 @@ const HistoryKunjungan = () => {
 
                     {/* Informasi Ibu dan Tombol */}
                     {momData && (
-                        <div className='bg-white px-4 py-6 rounded-xl flex flex-col gap-4 lg:flex-row justify-between items-center'>
-                            <div className='flex flex-row gap-6'>
-                                <InitialAvatar name={momData.nama_ibu} />
-                                <div className='text-[#02467C] flex flex-col text-base md:text-2xl gap-4 items-start'>
-                                    <span>Nama Ibu: {momData.nama_ibu ?? ""}</span>
-                                    <span>Usia Kehamilan: {momData.usia_kehamilan} Minggu</span>
-                                </div>
-                            </div>
-                            {decodedToken && (
-                                <Link to={`/history-catatan/${momData.id}`}>
-                                    <button className='py-4 px-10 bg-[#02467C] text-white rounded-lg'>
-                                        Histori Catatan
-                                    </button>
-                                </Link>
-                            )}
-                        </div>
+                        <div className='bg-white px-4 py-6 rounded-xl'>
+                       <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center w-full gap-6'>
+                           <div className='flex items-start gap-6'>
+                               <InitialAvatar name={momData.nama_ibu} />
+                               <div className='text-[#02467C] grid grid-cols-[150px_1fr] text-base md:text-2xl gap-2 text-start'>
+                                   <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
+                                   <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
+                               </div>
+                           </div>
+                   
+                           <Link to={`/history-catatan/${id}`}>
+                               <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl self-start lg:self-center'>
+                                   History Catatan
+                               </button>
+                           </Link>
+                       </div>
+                   </div>
                     )}
 
                     {/* Grafik Kunjungan */}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/navbar'
+import Navbar from '../components/Navbar'
 import InitialAvatar from '../components/Avatar'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -54,20 +54,24 @@ const HistoryCatatanIbu = () => {
                 <section className='container flex flex-col py-14 gap-4'>
 
                     {momData && (
-                        <div className='bg-white px-4 py-6 rounded-xl flex flex-col gap-4 lg:flex-row justify-between items-center'>
-                            <div className='flex flex-row gap-6 '>
-                                <InitialAvatar name={momData.nama_ibu} />
-                                <div className='text-[#02467C] grid grid-cols-[200px_1fr] text-base md:text-2xl gap-4 text-start'>
-                                    <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
-                                    <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
-                                </div>
-                            </div>
-                            <Link to={`/history-kunjungan/${id}`}>
-                                <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl '>
-                                    History Kunjungan
-                                </button>
-                            </Link>
-                        </div>)}
+                       <div className='bg-white px-4 py-6 rounded-xl'>
+                       <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center w-full gap-6'>
+                           <div className='flex items-start gap-6'>
+                               <InitialAvatar name={momData.nama_ibu} />
+                               <div className='text-[#02467C] grid grid-cols-[150px_1fr] text-base md:text-2xl gap-2 text-start'>
+                                   <div>Nama Ibu</div>       <div>: {momData.nama_ibu ?? ""}</div>
+                                   <div>Usia Kehamilan</div> <div>: {momData.usia_kehamilan} Minggu</div>
+                               </div>
+                           </div>
+                   
+                           <Link to={`/history-kunjungan/${id}`}>
+                               <button className='text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-4 px-7 rounded-2xl self-start lg:self-center'>
+                                   History Kunjungan
+                               </button>
+                           </Link>
+                       </div>
+                   </div>
+                   )}
                     <div className='flex flex-col gap-8 md:gap-16 mt-14'>
                         {momNotes && momNotes.length > 0 ? (
                             momNotes.map((note) => (
