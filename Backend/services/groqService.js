@@ -11,7 +11,7 @@ const summarizeText = async (inputText) => {
         messages: [
           {
             role: 'system',
-            content: 'Berikan ringkasan singkat',
+            content: 'Berikan ringkasan singkat tanpa basah-basi dari teks berikut, tapi jika teks ini terdiri dari 1 kata saja maka cukup tulis ulang saja "kondisi ibu hamil adalah" + (teksnya).',
           },
           {
             role: 'user',
