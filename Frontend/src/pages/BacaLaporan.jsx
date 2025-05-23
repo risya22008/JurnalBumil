@@ -132,7 +132,7 @@ const Section = ({ title, children }) => (
 // Komponen Field (rapih pakai grid)
 const Field = ({ label, value }) => (
   <div className="flex text-sm md:text-base items-center">
-    <div className="font-medium text-blue-800 min-w-[120px] md:min-w-[240px] truncate">{label}</div>
+    <div className="font-medium text-blue-800 min-w-[150px] md:min-w-[240px] truncate">{label}</div>
     <div className="mx-1">:</div>
     <div>{value}</div>
   </div>
