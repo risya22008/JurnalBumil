@@ -23,16 +23,16 @@ export default function DataIbuCard({ ibu }) {
                     <div>Nama Ibu</div><div className="truncate">: {ibu.nama_ibu}</div>
                     <div>Usia Kehamilan</div><div>: {ibu.usia_kehamilan} Minggu</div>
                     <div>Kondisi Kesehatan</div><div>:</div>
-                    <p className='col-span-2 text-black mb-4 md:mb-10 lg:mb-12 break-words'>
-                        {ibu.catatan[0]?.catatan_kondisi ?? "-"}
+                    <p className="col-span-2 text-black mb-4 md:mb-10 lg:mb-12 break-words">
+                    {ibu.catatan?.[0]?.ringkasan_catatan || "-"}
                     </p>
+
                 </div>
 
                 <div className='flex flex-col md:flex-row gap-4 md:gap-9 mt-2 md:mt-6'>
                     <Link to={`/history-catatan/${ibu.id}`} className='w-full md:w-auto'>
                         <button className='
                            text-sm sm:text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-2 px-4 sm:py-3 sm:px-6 md:py-4 md:px-7 rounded-2xl hover:bg-[#0368B5] hover:shadow-lg w-full
-
                         '>
                             History Catatan
                         </button>
@@ -40,7 +40,6 @@ export default function DataIbuCard({ ibu }) {
                     <Link to={`/history-kunjungan/${ibu.id}`} className='w-full md:w-auto'>
                         <button className='
                            text-sm sm:text-base md:text-lg lg:text-xl bg-[#02467C] text-white py-2 px-4 sm:py-3 sm:px-6 md:py-4 md:px-7 rounded-2xl hover:bg-[#0368B5] hover:shadow-lg w-full
-
                         '>
                             History Kunjungan
                         </button>
