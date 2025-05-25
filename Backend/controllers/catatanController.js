@@ -6,6 +6,7 @@ class CatatanController {
     }
 
 
+
     createNewCatatan = async (req, res) => {
         console.log("Received data:", req.body);
         try{
@@ -59,6 +60,34 @@ class CatatanController {
         }
     };
 
+
+    catatanSummary = async (req, res) => {
+        const id_ibu = req.params.idIbu;
+
+        if (!id_ibu) {
+            return res.status(400).json({ message: "id_ibu wajib diisi" });
+        }
+
+        const now = new Date();
+        const sevenDaysAgo = new Date(now);
+        sevenDaysAgo.setDate(now.getDate() - 7);
+
+        const pad = (n) => n.toString().padStart(2, '0');
+        const formatDate = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+        const sevenDaysAgoStr = formatDate(sevenDaysAgo);
+
+        try {
+            const catatan = await this.catatanService.getSummaryCatatan(id_ibu, sevenDaysAgoStr);
+
+            if (!catatan) {
+                return res.status(404).json({ message: "Catatan tidak ditemukan" });
+            }
+
+            return res.status(200).json({ message: "Berhasil mengambil catatan", data: catatan });
+        } catch (error) {
+            return res.status(500).json({ message: "Terjadi kesalahan saat mengambil catatan", error: error.message });
+        }
+    }
 }
 
 module.exports = { CatatanController }

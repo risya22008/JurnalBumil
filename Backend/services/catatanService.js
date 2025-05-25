@@ -19,11 +19,14 @@ class CatatanService {
           return docRef.id;
     }
 
-    editCatatan(){
+    async getSummaryCatatan(id_ibu, sevenDaysAgoStr){
+      const ibuSnapshot = await db.collection("Catatan").where("id_ibu", "==", id_ibu)
+                        .where("date", ">=", sevenDaysAgoStr)
+                        .get();
 
-    }
+      const recentNotes = ibuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-    getCatatanByIdCatatan(){
+      return recentNotes;
 
     }
 
