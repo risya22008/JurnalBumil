@@ -48,18 +48,26 @@ const KunjunganCard = ({ data, momId }) => {
     };
 
     return (
-        <div className='bg-white px-9 py-9 rounded-xl shadow-md flex flex-col gap-4 text-left'>
-            <div className='text-[#02467C] grid grid-cols-[max-content_1fr] gap-x-3 gap-y-3 text-base md:text-2xl text-start'>
-                <div>Tanggal Kunjungan</div>       <div>: {tanggal_kunjungan}</div>
-                <div>Usia Kehamilan Saat Kunjungan</div> <div>: {data.usiaKehamilanSekarang} Minggu</div>
-                <div>Berat Badan</div> <div>: {data.berat_badan ?? "-"} kg</div>
-                <div>Kondisi Kesehatan</div> <div>: </div>
+        <div className="bg-white px-4 sm:px-8 py-6 sm:py-8 rounded-xl shadow-md flex flex-col gap-4 text-left w-full">
+            <div className="text-[#02467C] grid grid-cols-[max-content_1fr] gap-x-2 gap-y-2 sm:gap-x-4 sm:gap-y-3 text-sm sm:text-base md:text-2xl">
+                <div>Tanggal Kunjungan</div>       
+                <div>: {tanggal_kunjungan}</div>
+
+                <div>Usia Kehamilan Saat Kunjungan</div> 
+                <div>: {data.usiaKehamilanSekarang} Minggu</div>
+
+                <div>Berat Badan</div> 
+                <div>: {data.berat_badan ?? "-"} kg</div>
+
+                <div>Kondisi Kesehatan</div> 
+                <div>: </div>
             </div>
-            <p className='text-gray-700 text-base md:text-xl'>{hasil_skrinning}</p>
+
+            <p className="text-gray-700 text-sm sm:text-base md:text-lg">{hasil_skrinning}</p>
 
             <button 
                 onClick={handleLaporanClick}
-                className='mt-20 md:text-lg lg:text-xl py-3 px-6 w-fit bg-[#02467C] text-white rounded-2xl hover:bg-[#0368B5] hover:shadow-lg'
+                className="mt-8 sm:mt-12 md:mt-16 text-sm sm:text-lg lg:text-xl py-2 sm:py-3 px-5 sm:px-6 w-fit bg-[#02467C] text-white rounded-2xl hover:bg-[#0368B5] hover:shadow-lg transition"
             >
                 Laporan Kunjungan
             </button>

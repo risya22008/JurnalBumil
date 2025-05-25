@@ -36,7 +36,17 @@ class BidanController {
                 emailVerified: false,
             });
 
-            const verificationLink = await auth().generateEmailVerificationLink(email_bidan);
+            //FE_URL
+const actionCodeSettings = {
+  url: `${process.env.FE_URL}/after-verify?email=${encodeURIComponent(email_bidan)}&role=bidan`,
+  handleCodeInApp: true, // agar frontend bisa applyActionCode
+};
+
+
+
+
+            const verificationLink = await auth().generateEmailVerificationLink(email_bidan, actionCodeSettings);
+
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',

@@ -40,8 +40,13 @@ class IbuController {
                 emailVerified: false,
             });
 
-            // Generate link verifikasi email
-            const verificationLink = await auth().generateEmailVerificationLink(email_ibu);
+            const actionCodeSettings = {
+            url: `${process.env.FE_URL}/after-verify?email=${encodeURIComponent(email_ibu)}&role=ibu`,
+            handleCodeInApp: true,
+        };
+
+        const verificationLink = await auth().generateEmailVerificationLink(email_ibu, actionCodeSettings);
+
 
             // Kirim email verifikasi
             const transporter = nodemailer.createTransport({
