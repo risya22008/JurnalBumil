@@ -1,8 +1,12 @@
 const { IbuService } = require("../services/ibuService");
 const { BidanService } = require("../services/bidanService");
 const { auth } = require("firebase-admin");
+const { convertSymptoms } = require('../utils/symptomMapping')
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
+const { summarizeText } = require("../services/groqService");
+const { getAISummary } = require("../services/groqService");
+const { getSevenDaysAgoDate } = require("../utils/allAboutDate");
 require("dotenv").config();
 
 const db = admin.firestore();
@@ -36,17 +40,7 @@ class BidanController {
                 emailVerified: false,
             });
 
-            //FE_URL
-const actionCodeSettings = {
-  url: `${process.env.FE_URL}/after-verify?email=${encodeURIComponent(email_bidan)}&role=bidan`,
-  handleCodeInApp: true, // agar frontend bisa applyActionCode
-};
-
-
-
-
-            const verificationLink = await auth().generateEmailVerificationLink(email_bidan, actionCodeSettings);
-
+            const verificationLink = await auth().generateEmailVerificationLink(email_bidan);
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -68,7 +62,7 @@ const actionCodeSettings = {
                         <p>Atau salin dan tempel link ini di browser Anda:</p>
                         <p>${verificationLink}</p>`
             };
-            
+
             await transporter.sendMail(mailOptions);
 
             await this.bidanService.createBidan({
@@ -163,20 +157,29 @@ const actionCodeSettings = {
         }
     };
 
-
     viewAllIbu = async (req, res) => {
+        const week = getSevenDaysAgoDate();
         try {
             const namaBidan = req.params.namaBidan;
-
             const result = await this.ibuService.getAllIbuWithCatatanByNamaBidan(namaBidan);
-            // console.log(result);
+
+            for (const data of result) {
+                let semua_catatan = data.semua_catatan.filter(catatan => catatan.date >= week);
+                console.log(semua_catatan)
+                data.ringkasan_catatan = await getAISummary(semua_catatan);
+            }
+
             res.status(200).json({ dataIbu: result });
 
         } catch (error) {
+            console.error(error)
             res.status(500).json({ message: error.message });
 
         }
     }
+
+
+
 }
 
 module.exports = { BidanController };

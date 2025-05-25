@@ -1,13 +1,21 @@
 const axios = require('axios');
+const { convertSymptoms } = require('../utils/symptomMapping');
+const Groq= require('groq-sdk');
 
+require('dotenv').config();
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
+
+const groq = new Groq({
+  apiKey: GROQ_API_KEY, 
+});
+
 
 const summarizeText = async (inputText) => {
   try {
     const response = await axios.post(
       'https://api.groq.com/openai/v1/chat/completions',
       {
-        model: 'llama3-70b-8192', // Ini nama model LLaMA 3.3 70B Versatile
+        model: 'meta-llama/llama-4-scout-17b-16e-instruct', // Ini nama model LLaMA 3.3 70B Versatile
         messages: [
           {
             role: 'system',
@@ -18,8 +26,8 @@ const summarizeText = async (inputText) => {
             content: `Ringkas informasi berikut:\n\n${inputText}`,
           },
         ],
-        temperature: 0.3,
-        max_tokens: 512,
+        temperature: 1,
+        max_tokens: 2570,
       },
       {
         headers: {
@@ -36,4 +44,38 @@ const summarizeText = async (inputText) => {
   }
 };
 
-module.exports = { summarizeText };
+async function getAISummary(data) {
+
+    data = JSON.stringify(convertSymptoms(data));
+
+    const prompt = `
+    Berdasarkan data kesehatan harian berikut, buatlah ringkasan kondisi kesehatan dalam bentuk satu paragraf saja. Ringkasan harus menyebutkan gejala yang muncul, kecenderungan kondisi pasien (misalnya: membaik, stabil, atau menurun), serta hal penting yang perlu diperhatikan. Jangan sertakan penjelasan tambahan, hanya berikan ringkasan dalam paragraf.
+    Data:
+    ${data}
+    `;
+
+
+    const chatCompletion = await groq.chat.completions.create({
+        "messages": [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "temperature": 1.5,
+        "max_completion_tokens": 2570,
+        "top_p": 1,
+        "stream": false,
+        "stop": null
+    });
+
+    
+    const result = chatCompletion.choices[0]?.message?.content || "";
+
+    return result;
+
+}
+
+
+module.exports = { summarizeText, getAISummary };

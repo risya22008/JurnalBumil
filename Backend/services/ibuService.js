@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const { db } = require("../firebaseClient");
 const jwt = require("jsonwebtoken");
 const { summarizeText } = require('../services/groqService');
+const { convertSymptoms } = require("../utils/symptomMapping");
 
 class IbuService {
     async createIbu(ibu) {
@@ -84,31 +85,15 @@ class IbuService {
                     ...doc.data()
                 }));
 
-                // Gabungkan semua isi catatan_kondisi
-                const isiGabungan = catatanList
-                    .map(c => c.catatan_kondisi || "")
-                    .filter(Boolean)
-                    .join(". ");
-
-                let ringkasanGabungan = "";
-                if (isiGabungan.trim().length > 0) {
-                    try {
-                        ringkasanGabungan = await summarizeText(isiGabungan);
-                    } catch (err) {
-                        console.warn(`Gagal merangkum semua catatan ibu ${id_ibu}:`, err.message);
-                    }
-                }
+                
 
                 return {
                     id: id_ibu,
                     ...ibuData,
                     usia_kehamilan: usiaKehamilanSekarang,
-                    catatan: [
-                        {
-                            ringkasan_catatan: ringkasanGabungan,
-                            semua_catatan: catatanList,
-                        },
-                    ]
+                    ringkasan_catatan: "",
+                    ringkasan_catatan: "",
+                    semua_catatan: catatanList,
                 };
             })
         );
