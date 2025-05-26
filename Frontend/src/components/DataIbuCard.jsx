@@ -24,8 +24,9 @@ export default function DataIbuCard({ ibu }) {
                     <div>Usia Kehamilan</div><div>: {ibu.usia_kehamilan} Minggu</div>
                     <div>Kondisi Kesehatan</div><div>:</div>
                     <p className="col-span-2 text-black mb-4 md:mb-10 lg:mb-12 break-words">
-                    {ibu.catatan?.[0]?.ringkasan_catatan || "-"}
+                    {ibu.ringkasan_catatan || "-"}
                     </p>
+
 
                 </div>
 

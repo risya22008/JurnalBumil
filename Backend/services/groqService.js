@@ -49,7 +49,7 @@ async function getAISummary(data) {
     data = JSON.stringify(convertSymptoms(data));
 
     const prompt = `
-    Berdasarkan data kesehatan harian berikut, buatlah ringkasan kondisi kesehatan dalam bentuk satu paragraf saja. Ringkasan harus menyebutkan gejala yang muncul, kecenderungan kondisi pasien (misalnya: membaik, stabil, atau menurun), serta hal penting yang perlu diperhatikan. Jangan sertakan penjelasan tambahan, hanya berikan ringkasan dalam paragraf.
+    Berdasarkan data kesehatan harian selama 7 hari berikut, buatlah ringkasan kondisi kesehatan dalam bentuk satu paragraf saja. Ringkasan harus menyebutkan gejala yang muncul, kecenderungan kondisi pasien (misalnya: membaik, stabil, atau menurun), serta hal penting yang perlu diperhatikan. Jangan sertakan penjelasan tambahan, hanya berikan ringkasan dalam paragraf. jika tidak ada datanya, maka beri tahu "tidak ada informasi tambahan selama 7 hari terakhir"
     Data:
     ${data}
     `;
