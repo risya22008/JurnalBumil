@@ -26,40 +26,57 @@ const Register = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    if (form.sandi_ibu.length < 8) {
-      return setError("Password harus minimal 8 karakter.");
-    }
+  const namaRegex = /^[A-Za-z\s]+$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
-    if (form.sandi_ibu !== form.confirmPassword) {
-      return setError("Konfirmasi password tidak cocok.");
-    }
+  if (!namaRegex.test(form.nama_ibu)) {
+    return setError("Nama hanya boleh berisi huruf dan spasi.");
+  }
 
-    try {
-      const { confirmPassword, ...restForm } = form;
-      const postData = {
-        ...restForm,
-        usia_kehamilan: Number(restForm.usia_kehamilan) || 0,
-      };
-      await axios.post("http://localhost:8000/api/ibu", postData);
-      setSuccess("Registrasi berhasil!");
-      setForm({
-        nama_ibu: "",
-        email_ibu: "",
-        sandi_ibu: "",
-        confirmPassword: "",
-        usia_kehamilan: "",
-        bidan: "",
-      });
-      navigate("/verifikasi");
-    } catch (err) {
-      const msg = err.response?.data?.message || "Terjadi kesalahan saat registrasi.";
-      setError(msg);
-    }
-  };
+  if (form.sandi_ibu.length < 8) {
+    return setError("Password harus minimal 8 karakter.");
+  }
+
+  if (!passwordRegex.test(form.sandi_ibu)) {
+    return setError("Password harus mengandung huruf besar, huruf kecil, dan angka.");
+  }
+
+  if (form.sandi_ibu !== form.confirmPassword) {
+    return setError("Konfirmasi password tidak cocok.");
+  }
+
+  const usia = Number(form.usia_kehamilan);
+  if (usia < 0 || usia > 50) {
+    return setError("Usia kehamilan harus antara 0 hingga 50 minggu.");
+  }
+
+  try {
+    const { confirmPassword, ...restForm } = form;
+    const postData = {
+      ...restForm,
+      usia_kehamilan: usia,
+    };
+    await axios.post("http://localhost:8000/api/ibu", postData);
+    setSuccess("Registrasi berhasil!");
+    setForm({
+      nama_ibu: "",
+      email_ibu: "",
+      sandi_ibu: "",
+      confirmPassword: "",
+      usia_kehamilan: "",
+      bidan: "",
+    });
+    navigate("/verifikasi");
+  } catch (err) {
+    const msg = err.response?.data?.message || "Terjadi kesalahan saat registrasi.";
+    setError(msg);
+  }
+};
+
 
   return (
     <FormLayout

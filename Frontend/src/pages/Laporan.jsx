@@ -89,51 +89,66 @@ export default function Laporan() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!selectedMom) {
-            alert("Silakan pilih ibu terlebih dahulu.");
-            return;
-        }
+    e.preventDefault();
+    if (!selectedMom) {
+        alert("Silakan pilih ibu terlebih dahulu.");
+        return;
+    }
 
-        try {
-            const response = await axios.post(
-                'http://localhost:8000/api/laporan-kunjungan',
-                {
-                    berat_badan: formData.beratBadan,
-                    tinggi_badan: formData.tinggiBadan,
-                    lingkar_lengan: formData.lingkarLengan,
-                    tinggi_rahim: formData.tinggiRahim,
-                    posisi_janin: formData.posisiJanin,
-                    denyut_nadi_janin: formData.denyutNadiJanin,
-                    tekanan_darah: formData.tekananDarah,
-                    tablet_tambah_darah: formData.tabletTambahDarah,
-                    tes_hemoglobin: formData.tesHemoglobin,
-                    imunisasi_tetanus: formData.imunisasiTetanus,
-                    gula_darah: formData.gulaDarah,
-                    golongan_darah: formData.golonganDarah,
-                    hiv: formData.hiv,
-                    sifilis: formData.sifilis,
-                    tes_hepatitis: formData.hepatitis,
-                    hasil_skrining: formData.hasilSkrining,
-                    id_ibu: selectedMom,
-                    date: new Date().toISOString().split("T")[0],
-                    id_bidan: decodedToken?.id,
+    const requiredFields = [
+        ...fields.map(f => f.name),
+        ...fields2.map(f => f.name),
+        "hasilSkrining"
+    ];
+
+    const emptyFields = requiredFields.filter((field) => !formData[field] || formData[field].trim() === "");
+
+    if (emptyFields.length > 0) {
+        alert("Harap lengkapi semua kolom sebelum mengirim.");
+        return;
+    }
+
+    const todayDate = new Date().toLocaleDateString("sv-SE");
+
+    try {
+        const response = await axios.post(
+            'http://localhost:8000/api/laporan-kunjungan',
+            {
+                berat_badan: formData.beratBadan,
+                tinggi_badan: formData.tinggiBadan,
+                lingkar_lengan: formData.lingkarLengan,
+                tinggi_rahim: formData.tinggiRahim,
+                posisi_janin: formData.posisiJanin,
+                denyut_nadi_janin: formData.denyutNadiJanin,
+                tekanan_darah: formData.tekananDarah,
+                tablet_tambah_darah: formData.tabletTambahDarah,
+                tes_hemoglobin: formData.tesHemoglobin,
+                imunisasi_tetanus: formData.imunisasiTetanus,
+                gula_darah: formData.gulaDarah,
+                golongan_darah: formData.golonganDarah,
+                hiv: formData.hiv,
+                sifilis: formData.sifilis,
+                tes_hepatitis: formData.hepatitis,
+                hasil_skrining: formData.hasilSkrining,
+                id_ibu: selectedMom,
+                date: todayDate,
+                id_bidan: decodedToken?.id,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            }
+        );
 
-            alert('Laporan berhasil disimpan!');
-            const todayDate = new Date().toLocaleDateString("sv-SE");
-            navigate(`/bacaLaporan?id_ibu=${selectedMom}&tanggal=${todayDate}`);
-        } catch (error) {
-            console.error('Gagal menyimpan laporan:', error);
-            alert('Terjadi kesalahan saat menyimpan laporan');
-        }
-    };
+        alert('Laporan berhasil disimpan!');
+        navigate(`/bacaLaporan?id_ibu=${selectedMom}&tanggal=${todayDate}`);
+    } catch (error) {
+        console.error('Gagal menyimpan laporan:', error);
+        alert('Terjadi kesalahan saat menyimpan laporan');
+    }
+};
+
 
     const fields = [
         { label: "Berat Badan", name: "beratBadan", unit: "kg", type: "number" },

@@ -26,36 +26,48 @@ const RegisterBidan = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    if (form.sandi_bidan.length < 8) {
-      return setError("Password harus minimal 8 karakter.");
-    }
+  const namaRegex = /^[A-Za-z\s]+$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
-    if (form.sandi_bidan !== form.confirmPassword) {
-      return setError("Konfirmasi password tidak cocok.");
-    }
+  if (!namaRegex.test(form.nama_bidan)) {
+    return setError("Nama hanya boleh berisi huruf dan spasi.");
+  }
 
-    try {
-      const { confirmPassword, ...postData } = form;
-      await axios.post("http://localhost:8000/api/bidan", postData);
-      setSuccess("Registrasi bidan berhasil!");
-      setForm({
-        nama_bidan: "",
-        email_bidan: "",
-        sandi_bidan: "",
-        confirmPassword: "",
-        kode_lembaga: "",
-        kode_bidan: "",
-      });
-      navigate("/verifikasi");
-    } catch (err) {
-      const msg = err.response?.data?.message || "Terjadi kesalahan saat registrasi.";
-      setError(msg);
-    }
-  };
+  if (form.sandi_bidan.length < 8) {
+    return setError("Password harus minimal 8 karakter.");
+  }
+
+  if (!passwordRegex.test(form.sandi_bidan)) {
+    return setError("Password harus mengandung huruf besar, huruf kecil, dan angka.");
+  }
+
+  if (form.sandi_bidan !== form.confirmPassword) {
+    return setError("Konfirmasi password tidak cocok.");
+  }
+
+  try {
+    const { confirmPassword, ...postData } = form;
+    await axios.post("http://localhost:8000/api/bidan", postData);
+    setSuccess("Registrasi bidan berhasil!");
+    setForm({
+      nama_bidan: "",
+      email_bidan: "",
+      sandi_bidan: "",
+      confirmPassword: "",
+      kode_lembaga: "",
+      kode_bidan: "",
+    });
+    navigate("/verifikasi");
+  } catch (err) {
+    const msg = err.response?.data?.message || "Terjadi kesalahan saat registrasi.";
+    setError(msg);
+  }
+};
+
 
   return (
     <FormLayout

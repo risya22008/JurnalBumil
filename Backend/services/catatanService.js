@@ -4,20 +4,35 @@ const jwt = require('jsonwebtoken');
 
 class CatatanService {
 
-    async addNewCatatan(catatanInfo){
-        const docRef = await db.collection('Catatan').add({
-            catatan_kondisi: catatanInfo.catatan_kondisi,
-            catatan_konsumsi: catatanInfo.catatan_konsumsi,
-            gejala: catatanInfo.gejala,
-            rating: catatanInfo.rating,
-            date: catatanInfo.date,
-            id_ibu: catatanInfo.id_ibu,
-          });
+    async addNewCatatan(catatanInfo) {
+      // Cari apakah sudah ada catatan dengan tanggal dan id_ibu yang sama
+      const existingSnapshot = await db.collection('Catatan')
+          .where('id_ibu', '==', catatanInfo.id_ibu)
+          .where('date', '==', catatanInfo.date)
+          .limit(1)
+          .get();
 
+      // Jika ada, hapus dokumen yang lama
+      if (!existingSnapshot.empty) {
+          const docIdToDelete = existingSnapshot.docs[0].id;
+          await db.collection('Catatan').doc(docIdToDelete).delete();
+          console.log(`Catatan lama dengan ID ${docIdToDelete} dihapus.`);
+      }
 
-          console.log("Document written with ID: ", docRef.id);
-          return docRef.id;
-    }
+      // Tambahkan catatan baru
+      const docRef = await db.collection('Catatan').add({
+          catatan_kondisi: catatanInfo.catatan_kondisi,
+          catatan_konsumsi: catatanInfo.catatan_konsumsi,
+          gejala: catatanInfo.gejala,
+          rating: catatanInfo.rating,
+          date: catatanInfo.date,
+          id_ibu: catatanInfo.id_ibu,
+      });
+
+      console.log("Document baru ditulis dengan ID: ", docRef.id);
+      return docRef.id;
+  }
+
 
     async getSummaryCatatan(id_ibu, sevenDaysAgoStr){
       const ibuSnapshot = await db.collection("Catatan").where("id_ibu", "==", id_ibu)

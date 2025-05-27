@@ -46,37 +46,54 @@ getLaporanByIbuAndTanggal = async (idIbu, tanggal) => {
   }
 };
 
+async addNewLapkun(laporanInfo) {
+    const formattedTanggal = laporanInfo.date;
 
-          
+    // Cari semua laporan yang memiliki id_ibu dan tanggal yang sama
+    const existingSnapshot = await db.collection('kondisi_janin')
+        .where('id_ibu', '==', laporanInfo.id_ibu)
+        .where('tanggal', '==', formattedTanggal)
+        .get();
 
-      async addNewLapkun(laporanInfo){
-        const formattedTanggal = laporanInfo.date; 
-    
-        const docRef = await db.collection('kondisi_janin').add({
-            berat_badan: laporanInfo.berat_badan,
-            denyut_nadi_janin: laporanInfo.denyut_nadi_janin,
-            golongan_darah: laporanInfo.golongan_darah,
-            gula_darah: laporanInfo.gula_darah,
-            hasil_skrining: laporanInfo.hasil_skrining,
-            hiv: laporanInfo.hiv,
-            imunisasi_tetanus: laporanInfo.imunisasi_tetanus,
-            lingkar_lengan: laporanInfo.lingkar_lengan,
-            posisi_janin: laporanInfo.posisi_janin,
-            sifilis: laporanInfo.sifilis,
-            tablet_tambah_darah: laporanInfo.tablet_tambah_darah,
-            tekanan_darah: laporanInfo.tekanan_darah,
-            tes_hemoglobin: laporanInfo.tes_hemoglobin,
-            tes_hepatitis: laporanInfo.tes_hepatitis,
-            tinggi_badan: laporanInfo.tinggi_badan,
-            tinggi_rahim: laporanInfo.tinggi_rahim,
-            id_ibu: laporanInfo.id_ibu,
-            id_bidan: laporanInfo.id_bidan,
-            tanggal: formattedTanggal, 
-        });
-    
-        console.log("Document written with ID: ", docRef.id);
-        return docRef.id;
+    // Hapus semua laporan yang ditemukan
+    const batch = db.batch();
+    existingSnapshot.forEach(doc => {
+        batch.delete(doc.ref);
+    });
+
+    if (!existingSnapshot.empty) {
+        console.log(`${existingSnapshot.size} laporan lama dihapus untuk ibu ${laporanInfo.id_ibu} tanggal ${formattedTanggal}`);
     }
+
+    await batch.commit();
+
+    // Tambahkan laporan baru
+    const docRef = await db.collection('kondisi_janin').add({
+        berat_badan: laporanInfo.berat_badan,
+        denyut_nadi_janin: laporanInfo.denyut_nadi_janin,
+        golongan_darah: laporanInfo.golongan_darah,
+        gula_darah: laporanInfo.gula_darah,
+        hasil_skrining: laporanInfo.hasil_skrining,
+        hiv: laporanInfo.hiv,
+        imunisasi_tetanus: laporanInfo.imunisasi_tetanus,
+        lingkar_lengan: laporanInfo.lingkar_lengan,
+        posisi_janin: laporanInfo.posisi_janin,
+        sifilis: laporanInfo.sifilis,
+        tablet_tambah_darah: laporanInfo.tablet_tambah_darah,
+        tekanan_darah: laporanInfo.tekanan_darah,
+        tes_hemoglobin: laporanInfo.tes_hemoglobin,
+        tes_hepatitis: laporanInfo.tes_hepatitis,
+        tinggi_badan: laporanInfo.tinggi_badan,
+        tinggi_rahim: laporanInfo.tinggi_rahim,
+        id_ibu: laporanInfo.id_ibu,
+        id_bidan: laporanInfo.id_bidan,
+        tanggal: formattedTanggal,
+    });
+
+    console.log("Laporan baru ditulis dengan ID:", docRef.id);
+    return docRef.id;
+}
+
     
 
     async getAllLapkunByIdIbu(id_ibu) {

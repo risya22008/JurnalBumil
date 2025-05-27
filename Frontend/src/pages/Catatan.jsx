@@ -67,14 +67,15 @@ const CatatanHarian = () => {
       return;
     }
   
-    const tanggal = new Date().toISOString().split("T")[0];
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("sv-SE"); // Format: YYYY-MM-DD
 
     const postData = {
       catatan_kondisi: formData.kondisiHarian,
       catatan_konsumsi: formData.makanan,
       gejala: formData.kondisi.map(Number),
       rating: formData.skorHarian,
-      date: tanggal,
+      date: formattedDate,
       id_ibu,
     };
     
@@ -97,7 +98,7 @@ const CatatanHarian = () => {
         skorHarian: 0,
       });
 
-      navigate(`/bacaCatatan?id_ibu=${id_ibu}&tanggal=${tanggal}`);
+      navigate(`/bacaCatatan?id_ibu=${id_ibu}&tanggal=${formattedDate}`);
 
 
       
