@@ -85,10 +85,11 @@ const Dashboard = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-grow px-6 py-8 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold py-12 text-center mb-2">
-          Perjalanan Kehamilan di Trimester {trimester}: Apa yang Perlu Ibu Tahu?
+        <h1 className="title text-blue-700 ">
+          <p>Perjalanan Kehamilan di Trimester {trimester}: </p>  
+          <p className="text-center mt-2 mb-10">Apa yang Perlu Ibu Tahu?</p>
         </h1>
-        <p className="text-center text-gray-600 mb-6">
+        <p className="text-center text-sm sm:text-base text-gray-600 mb-6">
           Yuk Kenali Apa yang Terjadi & Apa yang Harus Dilakukan di Trimester Ini
         </p>
         <img
@@ -100,8 +101,8 @@ const Dashboard = () => {
       
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-2 text-left">Apa yang Terjadi pada Ibu?</h2>
-          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-left">Apa yang Terjadi pada Ibu?</h2>
+          <ul className="list-disc pl-6 text-sm sm:text-base text-gray-700 text-justify py-6 space-y-2">
               {artikel.data.ibu.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
@@ -111,9 +112,9 @@ const Dashboard = () => {
         </section>
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-2 text-left">Apa yang Terjadi pada Janin?</h2>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-left">Apa yang Terjadi pada Janin?</h2>
        
-          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+          <ul className="list-disc pl-6 text-sm sm:text-base text-gray-700 text-justify py-6 space-y-2">
             {artikel.data.janin.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
@@ -122,8 +123,8 @@ const Dashboard = () => {
         </section>
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-2 text-left">Apa yang harus dilakukan ibu?</h2>
-          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-left">Apa yang harus dilakukan ibu?</h2>
+          <ul className="list-disc pl-6 text-sm sm:text-base text-gray-700 text-justify py-6 space-y-2">
             {artikel.data.perlu_dilakukan.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
@@ -133,8 +134,8 @@ const Dashboard = () => {
         </section>
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-2 text-left">Kondisi apa yang jadi tanda bahaya?</h2>
-          <ul className="list-disc pl-6 text-gray-700 text-justify py-6 space-y-2">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-left">Kondisi apa yang jadi tanda bahaya?</h2>
+          <ul className="list-disc pl-6 text-sm sm:text-base text-gray-700 text-justify py-6 space-y-2">
             {artikel.data.gejala_parah.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
@@ -142,16 +143,16 @@ const Dashboard = () => {
           
         </section>
 
-        <div className="flex justify-between mt-10">
+        <div className="flex justify-between mt-10 gap-8">
           <button
-            className={`px-4 py-2 rounded-md ${trimester > 1 ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
+            className={`w-full sm:w-auto px-3 py-1.5 sm:px-4 sm:py-2 rounded-md text-xs sm:text-sm transition  ${trimester > 1 ? "bg-blue-600 text-white hover:bg-[#0368B5] hover:shadow-lg " : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
             onClick={handleSebelumnya}
             disabled={trimester <= 1}
           >
             Cek Artikel Sebelumnya
           </button>
           <button
-            className={`px-4 py-2 rounded-md ${trimester < 3 ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
+            className={`w-full sm:w-auto px-3 py-1.5 sm:px-4 sm:py-2 rounded-md text-xs sm:text-sm transition  ${trimester < 3 ? "bg-blue-600 text-white hover:bg-[#0368B5] hover:shadow-lg" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
             onClick={handleSelanjutnya}
             disabled={trimester >= 3}
           >

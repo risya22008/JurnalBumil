@@ -160,7 +160,7 @@ export default function Laporan() {
         <>
             <Navbar />
             <main className='container py-12 flex flex-col gap-16'>
-                <div className='flex flex-row gap-2 md:gap-8 items-center'>
+                <div className='flex flex-col sm:flex-row gap-4 sm:gap-8 items-center'>
                     <img src='/avatar.png' />
                     <h2 className='text-3xl'>{decodedToken?.nama ?? ""}</h2>
                 </div>
@@ -168,7 +168,7 @@ export default function Laporan() {
                     <div className="mb-8 flex flex-col gap-4 items-start">
                         <label className="block font-semibold text-base md:text-2xl mb-2">Pilih Ibu</label>
                         <select
-                            className="w-full border border-[#4FA0FF] rounded-[20px] h-14 md:h-16 px-4"
+                            className="w-full max-w-xs md:max-w-md border border-[#4FA0FF] rounded-[20px] h-14 md:h-16 px-4"
                             value={selectedMom}
                             onChange={(e) => setSelectedMom(e.target.value)}
                         >
@@ -185,7 +185,7 @@ export default function Laporan() {
                         {fields.map((field, index) => (
                             <div key={field.name} className='flex flex-col items-start gap-2'>
                                 <label className="block font-semibold text-base md:text-2xl mb-1">{field.label}</label>
-                                <div className="relative w-full">
+                                <div className="relative w-full ">
                                     {field.type === "select" ? (
                                         <select
                                             ref={(el) => (inputRefs.current[index] = el)}
@@ -209,10 +209,10 @@ export default function Laporan() {
                                                 name={field.name}
                                                 value={formData[field.name]}
                                                 onChange={handleChange}
-                                                className="w-full border border-[#4FA0FF] rounded-md md:rounded-[20px] h-14 md:h-20 px-3 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                className="w-full border border-[#4FA0FF] rounded-md md:rounded-[20px] h-14 md:h-20 px-3 pr-20 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                             />
                                             {field.unit && (
-                                                <span className="absolute right-8 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">{field.unit}</span>
+                                                <span className="absolute right-8 top-1/2 transform -translate-y-1/2  text-xs sm:text-sm text-gray-500">{field.unit}</span>
                                             )}
                                         </>
                                     )}

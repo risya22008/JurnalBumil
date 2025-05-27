@@ -5,7 +5,12 @@
   text-align: center;
 }
 
-
+.title {
+  font-size: clamp(1.25rem, 2vw, 2rem); /* Ukuran responsif antara 20px dan 32px */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
 
 .logo {
   height: 6em;

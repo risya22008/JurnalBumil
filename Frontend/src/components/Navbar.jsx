@@ -37,7 +37,7 @@ const Navbar = () => {
         </button>
 
         {/* Kanan: Desktop menu */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-6 text-sm">
           <Link to="/dashboard" className="text-gray-700 hover:underline">Beranda</Link>
 
           {decodedToken?.role === "ibu" && (
