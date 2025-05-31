@@ -5,6 +5,8 @@ import FormInput from "../components/FormInput";
 import PasswordInput from "../components/PasswordInput";
 import SubmitButton from "../components/SubmitButton";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Login = () => {
   const [form, setForm] = useState({
     role: "",
@@ -27,12 +29,12 @@ const Login = () => {
       let response;
 
       if (form.role === "bidan") {
-        response = await axios.post("http://localhost:8000/api/login/bidan", {
+        response = await axios.post(`${BASE_URL}/api/login/bidan`, {
           email_bidan: form.email,
           sandi_bidan: form.password,
         });
       } else if (form.role === "ibu") {
-        response = await axios.post("http://localhost:8000/api/login/ibu", {
+        response = await axios.post(`${BASE_URL}/api/login/ibu`, {
           email_ibu: form.email,
           sandi_ibu: form.password,
         });

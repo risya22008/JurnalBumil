@@ -8,6 +8,8 @@ import "../App.css";
 import RequireAuth from "../components/RequireAuth";
 import { useNavigate } from 'react-router-dom';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const CatatanHarian = () => {
   const navigate = useNavigate();
 
@@ -80,7 +82,7 @@ const CatatanHarian = () => {
     };
     
     try {
-      await axios.post("http://localhost:8000/api/catatan", postData,
+      await axios.post(`${BASE_URL}/api/catatan`, postData,
         {
           headers: {
               Authorization: `Bearer ${token}`,

@@ -4,6 +4,8 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Catatan = () => {
 
     const symptoms = [
@@ -46,7 +48,7 @@ const Catatan = () => {
         const fetchCatatan = async () => {
             try {
                 // Membuat request ke API
-                const response = await fetch(`http://localhost:8000/api/histori/catatan/baca?id_ibu=${id_ibu}&tanggal=${tanggal}`,
+                const response = await fetch(`${BASE_URL}/api/histori/catatan/baca?id_ibu=${id_ibu}&tanggal=${tanggal}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

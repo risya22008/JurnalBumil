@@ -8,6 +8,8 @@ import LapKun from './LapKun'
 import KunjunganCard from '../components/KunjunganCard'
 import { decodeJwt } from '../utils/decode'; // import decodeJwt
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const HistoryKunjungan = () => {
     const { id } = useParams()
 
@@ -39,7 +41,7 @@ const HistoryKunjungan = () => {
 
         const fetchMomData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/ibu/${id}`, {
+                const response = await axios.get(`${BASE_URL}/api/ibu/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
@@ -56,7 +58,7 @@ const HistoryKunjungan = () => {
 
         const fetchLaporanKunjungan = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
+                const response = await axios.get(`${BASE_URL}/api/laporan-kunjungan/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
@@ -73,7 +75,7 @@ const HistoryKunjungan = () => {
 
         const fetchKunjungan = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/histori/kunjungan/${id}`, {
+                const response = await axios.get(`${BASE_URL}/api/histori/kunjungan/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
@@ -91,7 +93,7 @@ const HistoryKunjungan = () => {
 
         const fetchGrafikData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/laporan-kunjungan/${id}`, {
+                const response = await axios.get(`${BASE_URL}/api/laporan-kunjungan/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json',

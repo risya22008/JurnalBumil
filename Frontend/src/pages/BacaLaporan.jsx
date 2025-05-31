@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const BacaLaporan = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const BacaLaporan = () => {
     const fetchLaporan = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
+          `${BASE_URL}/api/histori/laporan/baca?id_ibu=${idIbu}&tanggal=${tanggal}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

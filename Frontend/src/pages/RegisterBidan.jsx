@@ -7,6 +7,8 @@ import SubmitButton from "../components/SubmitButton";
 import SwitchAuthLink from "../components/SwitchAuthLink";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const RegisterBidan = () => {
   const [form, setForm] = useState({
     nama_bidan: "",
@@ -51,7 +53,7 @@ const RegisterBidan = () => {
 
   try {
     const { confirmPassword, ...postData } = form;
-    await axios.post("http://localhost:8000/api/bidan", postData);
+    await axios.post(`${BASE_URL}/api/bidan`, postData);
     setSuccess("Registrasi bidan berhasil!");
     setForm({
       nama_bidan: "",

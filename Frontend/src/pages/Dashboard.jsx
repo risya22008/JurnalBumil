@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { decodeJwt } from "../utils/decode"; // pastikan path-nya sesuai
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Dashboard = () => {
   const [artikel, setArtikel] = useState(null);
   const [trimester, setTrimester] = useState(null);
@@ -20,11 +22,11 @@ const Dashboard = () => {
       let endpoint = "";
 
       if (t) {
-        endpoint = `http://localhost:8000/api/beranda/trimester/${t}`;
+        endpoint = `${BASE_URL}/api/beranda/trimester/${t}`;
       } else if (role === "bidan") {
-        endpoint = `http://localhost:8000/api/beranda/trimester/1`; // default bidan
+        endpoint = `${BASE_URL}/api/beranda/trimester/1`; // default bidan
       } else {
-        endpoint = `http://localhost:8000/api/beranda/ibu`; // default ibu
+        endpoint = `${BASE_URL}/api/beranda/ibu`; // default ibu
       }
 
       const res = await fetch(endpoint, {

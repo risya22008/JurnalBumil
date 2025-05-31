@@ -4,6 +4,8 @@ import { decodeJwt } from '../utils/decode'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function Laporan() {
     const [token, setToken] = useState(null)
     const [decodedToken, setDecodedToken] = useState(null)
@@ -67,7 +69,7 @@ export default function Laporan() {
             if (!token || !decodedToken) return
             setLoading(true)
             try {
-                const response = await axios.get(`http://localhost:8000/api/bidan/${decodedToken.nama}/ibu`, {
+                const response = await axios.get(`${BASE_URL}/api/bidan/${decodedToken.nama}/ibu`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -112,7 +114,7 @@ export default function Laporan() {
 
     try {
         const response = await axios.post(
-            'http://localhost:8000/api/laporan-kunjungan',
+            `${BASE_URL}/api/laporan-kunjungan`,
             {
                 berat_badan: formData.beratBadan,
                 tinggi_badan: formData.tinggiBadan,

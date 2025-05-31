@@ -6,6 +6,8 @@ import axios from 'axios'
 import { decodeJwt } from '../utils/decode'
 import DataIbuCard from '../components/DataIbuCard'
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const DataIbu = () => {
     const [token, setToken] = useState(null)
     const [decodedToken, setDecodedToken] = useState(null)
@@ -35,7 +37,7 @@ const DataIbu = () => {
             if (!token || !decodedToken) return
             setLoading(true)
             try {
-                const response = await axios.get(`http://localhost:8000/api/bidan/${decodedToken.nama}/ibu`, {
+                const response = await axios.get(`${BASE_URL}/api/bidan/${decodedToken.nama}/ibu`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

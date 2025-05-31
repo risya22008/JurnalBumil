@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const AfterVerify = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -18,9 +20,9 @@ const AfterVerify = () => {
     let endpoint = "";
 
     if (role === "bidan") {
-      endpoint = "http://localhost:8000/api/bidan/verifikasi";
+      endpoint = `${BASE_URL}/api/bidan/verifikasi`;
     } else if (role === "ibu") {
-      endpoint = "http://localhost:8000/api/ibu/verifikasi";
+      endpoint = `${BASE_URL}/api/ibu/verifikasi`;
     } else {
       alert("Role tidak dikenal.");
       return;

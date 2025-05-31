@@ -6,6 +6,9 @@ import axios from 'axios'
 import Star from '../components/Star'
 import CatatanCard from '../components/CatatanCard'
 
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const HistoryCatatanIbu = () => {
 
     const { id } = useParams()
@@ -27,7 +30,7 @@ const HistoryCatatanIbu = () => {
     useEffect(() => {
         const fetchMomData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/ibu/${id}`, {
+                const response = await axios.get(`${BASE_URL}/api/ibu/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
@@ -41,7 +44,7 @@ const HistoryCatatanIbu = () => {
 
         const fetchCatatanByMomId = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/catatan/${id}`, {
+                const response = await axios.get(`${BASE_URL}/api/catatan/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
