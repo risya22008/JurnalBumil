@@ -1,6 +1,6 @@
 # 📝 Jurnal Bumil – Web Aplikasi Catatan Kehamilan
 
-Jurnal Bumil adalah aplikasi web yang dirancang untuk membantu ibu hamil dalam mencatat kondisi harian serta memantau histori kunjungan medis bersama bidan. Aplikasi ini juga menyediakan artikel edukatif yang disesuaikan dengan usia kehamilan dan dilengkapi fitur OTP verifikasi email untuk keamanan data.
+Jurnal Bumil adalah aplikasi web yang dirancang untuk membantu ibu hamil dalam mencatat kondisi harian serta memantau histori kunjungan medis bersama bidan. Aplikasi ini juga menyediakan artikel edukatif yang disesuaikan dengan usia kehamilan dan dilengkapi fitur verifikasi email untuk keamanan data.
 
 ---
 
@@ -24,14 +24,14 @@ Jurnal Bumil adalah aplikasi web yang dirancang untuk membantu ibu hamil dalam m
 * 👩‍⚕️ **Data Ibu Binaan**
     * Menampilkan daftar ibu hamil dalam pengawasan, lengkap dengan histori kesehatan dan integrasi AI untuk ringkasan.
 * 🔐 **Verifikasi Akun**
-    * Sistem OTP berbasis email untuk memastikan validitas data saat registrasi ibu maupun bidan.
+    * Sistem berbasis email untuk memastikan validitas data saat registrasi ibu maupun bidan.
 
 ---
 
 ## 🔧 Teknologi & Tools
 
 * **Frontend**: React (dengan navigasi berdasarkan role)
-* **Backend**: Express.js + Firebase Authentication (OTP), Firestore (penyimpanan data)
+* **Backend**: Express.js + Firebase Authentication, Firestore (penyimpanan data)
 * **Database Query**: SQL-like untuk fetching data dari tabel `ibu`, `bidan`, `catatan_harian`, dan `laporan_kunjungan`
 * **API AI**: OpenAI API untuk membuat ringkasan otomatis
 * **Deployment**: Google Cloud / Firebase Hosting
@@ -45,8 +45,8 @@ Jurnal Bumil adalah aplikasi web yang dirancang untuk membantu ibu hamil dalam m
 * `POST /api/ibu` – Registrasi akun ibu
 * `POST /api/bidan` – Registrasi akun bidan
 * `GET /api/login` – Login untuk semua role
-* `GET /api/ibu/verifikasi` – Verifikasi OTP ibu
-* `GET /api/bidan/login` – Verifikasi OTP bidan
+* `GET /api/ibu/verifikasi` – Verifikasi ibu
+* `GET /api/bidan/login` – Verifikasi bidan
 
 ### Artikel
 
